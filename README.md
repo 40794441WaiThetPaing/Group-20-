@@ -11,3 +11,5 @@ Testing for CI
 # Master
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/40794441WaiThetPaing/Group-20-/main.yml?branch=master)
 
+# Develop
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/40794441WaiThetPaing/Group-20-/main.yml?branch=develop)
