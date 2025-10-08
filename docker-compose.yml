@@ -6,11 +6,11 @@ services:
 
   # db is is db folder
   db:
-    build: db/.
+    build: database/.
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: employees
+      MYSQL_DATABASE: world
       MYSQL_ROOT_HOST: '%'
     ports:
       - "33060:3306"
