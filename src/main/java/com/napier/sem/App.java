@@ -227,7 +227,7 @@ public class App {
     }
 
     /**
-     * Prints the top N countries in the world by population.
+     * 4. the top N countries in the world by population.
      * @param topN The number of countries to display.
      */
     public void printTopCountriesByPopulation(int topN) {
@@ -264,6 +264,47 @@ public class App {
             System.out.println("Error retrieving top countries by population: " + e.getMessage());
         }
     }
+    /**
+     * 5. the top N countries in a continent by population.
+     * @param continent The continent name
+     * @param topN Number of countries to display
+     */
+    public void printTopCountriesInContinent(String continent, int topN) {
+        try {
+            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
+                    "FROM country c " +
+                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
+                    "WHERE c.Continent = ? " +
+                    "ORDER BY c.Population DESC " +
+                    "LIMIT ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, continent);
+            stmt.setInt(2, topN);
+
+            ResultSet rset = stmt.executeQuery();
+
+            System.out.printf("\nTop %d Countries in %s by Population:\n", topN, continent);
+            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
+                    "Code", "Name", "Continent", "Region", "Population", "Capital");
+            System.out.println("----------------------------------------------------------------------------------------------------");
+
+            while (rset.next()) {
+                String code = rset.getString("Code");
+                String name = rset.getString("Name");
+                String cont = rset.getString("Continent");
+                String region = rset.getString("Region");
+                int population = rset.getInt("Population");
+                String capital = rset.getString("Capital");
+
+                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
+                        code, name, cont, region, population, capital);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error retrieving top countries in continent: " + e.getMessage());
+        }
+    }
 
 
 
@@ -285,7 +326,9 @@ public class App {
         //country report 3
         //a.printCountriesByRegion("Eastern Asia");
         //country report 4
-        a.printTopCountriesByPopulation(10);
+        //a.printTopCountriesByPopulation(10);
+        //country report 5
+        a.printTopCountriesInContinent("Asia",10);
 
         // Disconnect from database
         a.disconnect();
