@@ -69,7 +69,8 @@ public class App {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
-            String strSelect = "SELECT SUM(Population) AS TotalWorldPopulation FROM country;";
+            String strSelect = "SELECT SUM(Population) AS TotalWorldPopulation\n" +
+                    "FROM country;";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Retrieve result
@@ -90,6 +91,39 @@ public class App {
         System.out.printf("%-30s %-12d\n", "Total World Population:", population);
     }
 
+    /**
+     * Retrieves the total population of a given continent.
+     * Example: "North America"
+     */
+    public long getContinentPopulation(String continentName) {
+        long continentPopulation = 0;
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // SQL query to sum population for the given continent
+            String strSelect = "SELECT SUM(Population) AS ContinentPopulation " +
+                    "FROM country WHERE Continent = '" + continentName + "';";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Retrieve result
+            if (rset.next()) {
+                continentPopulation = rset.getLong("ContinentPopulation");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get continent population");
+        }
+        return continentPopulation;
+    }
+
+    /**
+     * Prints the total population of a given continent.
+     */
+    public void printContinentPopulation(String continentName, long population) {
+        System.out.printf("%-30s %-12d\n", "Population of " + continentName + ":", population);
+    }
+
+
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
         App a = new App();
@@ -100,6 +134,10 @@ public class App {
         // Get and print total world population
         long totalPopulation = a.getTotalWorldPopulation();
         a.printTotalWorldPopulation(totalPopulation);
+
+        // Get and print total population for North America
+        long northAmericaPop = a.getContinentPopulation("North America");
+        a.printContinentPopulation("North America", northAmericaPop);
 
         // Disconnect from database
         a.disconnect();
