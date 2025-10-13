@@ -99,6 +99,55 @@ public class App {
             System.out.printf("%-30s %-30s %-12d\n", city.Name, city.District, city.Population);
         }
     }
+
+    /**
+     * 1. All the countries in the world organised by largest population to smallest.
+     *
+     */
+    public void printCountriesByPopulation() {
+        try {
+            Statement stmt = con.createStatement();
+
+            // SQL query: join country with city to get the capital name
+            String sql = """
+            SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital
+            FROM country c
+            LEFT JOIN city ci ON c.Capital = ci.ID
+            ORDER BY c.Population DESC;
+        """;
+
+            ResultSet rset = stmt.executeQuery(sql);
+
+            // Header
+            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
+                    "Code", "Name", "Continent", "Region", "Population", "Capital");
+            System.out.println("----------------------------------------------------------------------------------------------------");
+
+            // Loop through results
+            while (rset.next()) {
+                Country country = new Country();
+                country.Code = 0; // because your Code is an int (we’ll store it as 0, since Code is actually CHAR in DB)
+                country.Name = rset.getString("Name");
+                country.Continent = rset.getString("Continent");
+                country.Region = rset.getString("Region");
+                country.Population = rset.getInt("Population");
+                // The capital city name (from join)
+                String capitalName = rset.getString("Capital");
+
+                // Print output
+                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
+                        rset.getString("Code"),
+                        country.Name,
+                        country.Continent,
+                        country.Region,
+                        country.Population,
+                        capitalName);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error retrieving country report: " + e.getMessage());
+        }
+    }
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
@@ -109,6 +158,9 @@ public class App {
         a.connect();
         ArrayList<City> cities = a.getAllCitiesByPopulation();
         a.printCityReport(cities);
+
+        //country reports
+        a.printCountriesByPopulation();
         // Disconnect from database
         a.disconnect();
     }
