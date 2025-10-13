@@ -187,6 +187,44 @@ public class App {
         }
     }
 
+    /**
+     * 3. all countries in a given region sorted by population (descending order).
+     * @param region The name of the region
+     */
+    public void printCountriesByRegion(String region) {
+        try {
+            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
+                    "FROM country c " +
+                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
+                    "WHERE c.Region = ? " +
+                    "ORDER BY c.Population DESC";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, region); // safely set region parameter
+
+            ResultSet rset = stmt.executeQuery();
+
+            System.out.printf("\nCountries in %s (sorted by population):%n", region);
+            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
+                    "Code", "Name", "Continent", "Region", "Population", "Capital");
+            System.out.println("----------------------------------------------------------------------------------------------------");
+
+            while (rset.next()) {
+                String code = rset.getString("Code");
+                String name = rset.getString("Name");
+                String cont = rset.getString("Continent");
+                String reg = rset.getString("Region");
+                int population = rset.getInt("Population");
+                String capital = rset.getString("Capital");
+
+                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
+                        code, name, cont, reg, population, capital);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error retrieving countries by region: " + e.getMessage());
+        }
+    }
 
 
     public static void main(String[] args) {
@@ -203,7 +241,9 @@ public class App {
         //country report 1
         //a.printCountriesByPopulation();
         //country report 2
-        a.printCountriesByContinent("Asia");
+        //a.printCountriesByContinent("Asia");
+        //country report 3
+        a.printCountriesByRegion("Eastern Asia");
 
         // Disconnect from database
         a.disconnect();
