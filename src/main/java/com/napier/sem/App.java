@@ -100,254 +100,6 @@ public class App {
         }
     }
 
-    /**
-     * 1. All the countries in the world organised by largest population to smallest.
-     *
-     */
-    public void printCountriesByPopulation() {
-        try {
-            Statement stmt = con.createStatement();
-
-            // SQL query: join country with city to get the capital name
-            String sql = """
-            SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital
-            FROM country c
-            LEFT JOIN city ci ON c.Capital = ci.ID
-            ORDER BY c.Population DESC;
-        """;
-
-            ResultSet rset = stmt.executeQuery(sql);
-
-            // Header
-            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
-                    "Code", "Name", "Continent", "Region", "Population", "Capital");
-            System.out.println("----------------------------------------------------------------------------------------------------");
-
-            // Loop through results
-            while (rset.next()) {
-                Country country = new Country();
-                country.Code = 0; // because your Code is an int (we’ll store it as 0, since Code is actually CHAR in DB)
-                country.Name = rset.getString("Name");
-                country.Continent = rset.getString("Continent");
-                country.Region = rset.getString("Region");
-                country.Population = rset.getInt("Population");
-                // The capital city name (from join)
-                String capitalName = rset.getString("Capital");
-
-                // Print output
-                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
-                        rset.getString("Code"),
-                        country.Name,
-                        country.Continent,
-                        country.Region,
-                        country.Population,
-                        capitalName);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error retrieving country report: " + e.getMessage());
-        }
-    }
-
-    /**
-     * 2. all countries in a continent sorted by population (descending order).
-     * @param continent The name of the continent.
-     */
-    public void printCountriesByContinent(String continent) {
-        try {
-            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
-                    "FROM country c " +
-                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
-                    "WHERE c.Continent = ? " +
-                    "ORDER BY c.Population DESC";
-
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, continent); // safely sets the continent parameter
-
-            ResultSet rset = stmt.executeQuery();
-
-            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
-                    "Code", "Name", "Continent", "Region", "Population", "Capital");
-            System.out.println("----------------------------------------------------------------------------------------------------");
-
-            while (rset.next()) {
-                String code = rset.getString("Code");
-                String name = rset.getString("Name");
-                String cont = rset.getString("Continent");
-                String region = rset.getString("Region");
-                int population = rset.getInt("Population");
-                String capital = rset.getString("Capital");
-
-                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
-                        code, name, cont, region, population, capital);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    /**
-     * 3. all countries in a given region sorted by population (descending order).
-     * @param region The name of the region
-     */
-    public void printCountriesByRegion(String region) {
-        try {
-            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
-                    "FROM country c " +
-                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
-                    "WHERE c.Region = ? " +
-                    "ORDER BY c.Population DESC";
-
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, region); // safely set region parameter
-
-            ResultSet rset = stmt.executeQuery();
-
-            System.out.printf("\nCountries in %s (sorted by population):%n", region);
-            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
-                    "Code", "Name", "Continent", "Region", "Population", "Capital");
-            System.out.println("----------------------------------------------------------------------------------------------------");
-
-            while (rset.next()) {
-                String code = rset.getString("Code");
-                String name = rset.getString("Name");
-                String cont = rset.getString("Continent");
-                String reg = rset.getString("Region");
-                int population = rset.getInt("Population");
-                String capital = rset.getString("Capital");
-
-                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
-                        code, name, cont, reg, population, capital);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error retrieving countries by region: " + e.getMessage());
-        }
-    }
-
-    /**
-     * 4. the top N countries in the world by population.
-     * @param topN The number of countries to display.
-     */
-    public void printTopCountriesByPopulation(int topN) {
-        try {
-            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
-                    "FROM country c " +
-                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
-                    "ORDER BY c.Population DESC " +
-                    "LIMIT ?";
-
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, topN); // set the number of countries
-
-            ResultSet rset = stmt.executeQuery();
-
-            System.out.printf("\nTop %d Countries by Population:\n", topN);
-            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
-                    "Code", "Name", "Continent", "Region", "Population", "Capital");
-            System.out.println("----------------------------------------------------------------------------------------------------");
-
-            while (rset.next()) {
-                String code = rset.getString("Code");
-                String name = rset.getString("Name");
-                String cont = rset.getString("Continent");
-                String region = rset.getString("Region");
-                int population = rset.getInt("Population");
-                String capital = rset.getString("Capital");
-
-                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
-                        code, name, cont, region, population, capital);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error retrieving top countries by population: " + e.getMessage());
-        }
-    }
-    /**
-     * 5. the top N countries in a continent by population.
-     * @param continent The continent name
-     * @param topN Number of countries to display
-     */
-    public void printTopCountriesInContinent(String continent, int topN) {
-        try {
-            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
-                    "FROM country c " +
-                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
-                    "WHERE c.Continent = ? " +
-                    "ORDER BY c.Population DESC " +
-                    "LIMIT ?";
-
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, continent);
-            stmt.setInt(2, topN);
-
-            ResultSet rset = stmt.executeQuery();
-
-            System.out.printf("\nTop %d Countries in %s by Population:\n", topN, continent);
-            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
-                    "Code", "Name", "Continent", "Region", "Population", "Capital");
-            System.out.println("----------------------------------------------------------------------------------------------------");
-
-            while (rset.next()) {
-                String code = rset.getString("Code");
-                String name = rset.getString("Name");
-                String cont = rset.getString("Continent");
-                String region = rset.getString("Region");
-                int population = rset.getInt("Population");
-                String capital = rset.getString("Capital");
-
-                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
-                        code, name, cont, region, population, capital);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error retrieving top countries in continent: " + e.getMessage());
-        }
-    }
-
-    /**
-     * 6. the top N countries in a region by population.
-     * @param region The region name
-     * @param topN Number of countries to display
-     */
-    public void printTopCountriesInRegion(String region, int topN) {
-        try {
-            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
-                    "FROM country c " +
-                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
-                    "WHERE c.Region = ? " +
-                    "ORDER BY c.Population DESC " +
-                    "LIMIT ?";
-
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, region);
-            stmt.setInt(2, topN);
-
-            ResultSet rset = stmt.executeQuery();
-
-            System.out.printf("\nTop %d Countries in %s by Population:\n", topN, region);
-            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
-                    "Code", "Name", "Continent", "Region", "Population", "Capital");
-            System.out.println("----------------------------------------------------------------------------------------------------");
-
-            while (rset.next()) {
-                String code = rset.getString("Code");
-                String name = rset.getString("Name");
-                String cont = rset.getString("Continent");
-                String reg = rset.getString("Region");
-                int population = rset.getInt("Population");
-                String capital = rset.getString("Capital");
-
-                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
-                        code, name, cont, reg, population, capital);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error retrieving top countries in region: " + e.getMessage());
-        }
-    }
-
 
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
@@ -360,18 +112,26 @@ public class App {
         ArrayList<City> cities = a.getAllCitiesByPopulation();
         //a.printCityReport(cities);
 
-        //country report 1
-        //a.printCountriesByPopulation();
-        //country report 2
-        //a.printCountriesByContinent("Asia");
-        //country report 3
-        //a.printCountriesByRegion("Eastern Asia");
-        //country report 4
-        //a.printTopCountriesByPopulation(10);
-        //country report 5
-        //a.printTopCountriesInContinent("Asia",10);
-        //country report 6
-        a.printTopCountriesInRegion("Southern Europe",10);
+        // Create CountryReport object with the connection
+        CountryReport cr = new CountryReport(a.con);
+
+        // 1. All countries by population
+        cr.printCountriesByPopulation();
+
+        // 2. All countries in a continent
+        cr.printCountriesByContinent("Asia");
+
+        // 3. All countries in a region
+        cr.printCountriesByRegion("Eastern Asia");
+
+        // 4. Top N countries in the world
+        cr.printTopCountriesByPopulation(10);
+
+        // 5. Top N countries in a continent
+        cr.printTopCountriesInContinent("Asia", 10);
+
+        // 6. Top N countries in a region
+        cr.printTopCountriesInRegion("Southern Europe", 10);
 
         // Disconnect from database
         a.disconnect();
