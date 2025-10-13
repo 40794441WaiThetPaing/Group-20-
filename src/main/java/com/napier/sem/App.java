@@ -306,6 +306,47 @@ public class App {
         }
     }
 
+    /**
+     * 6. the top N countries in a region by population.
+     * @param region The region name
+     * @param topN Number of countries to display
+     */
+    public void printTopCountriesInRegion(String region, int topN) {
+        try {
+            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
+                    "FROM country c " +
+                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
+                    "WHERE c.Region = ? " +
+                    "ORDER BY c.Population DESC " +
+                    "LIMIT ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, region);
+            stmt.setInt(2, topN);
+
+            ResultSet rset = stmt.executeQuery();
+
+            System.out.printf("\nTop %d Countries in %s by Population:\n", topN, region);
+            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
+                    "Code", "Name", "Continent", "Region", "Population", "Capital");
+            System.out.println("----------------------------------------------------------------------------------------------------");
+
+            while (rset.next()) {
+                String code = rset.getString("Code");
+                String name = rset.getString("Name");
+                String cont = rset.getString("Continent");
+                String reg = rset.getString("Region");
+                int population = rset.getInt("Population");
+                String capital = rset.getString("Capital");
+
+                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
+                        code, name, cont, reg, population, capital);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error retrieving top countries in region: " + e.getMessage());
+        }
+    }
 
 
     public static void main(String[] args) {
@@ -328,7 +369,9 @@ public class App {
         //country report 4
         //a.printTopCountriesByPopulation(10);
         //country report 5
-        a.printTopCountriesInContinent("Asia",10);
+        //a.printTopCountriesInContinent("Asia",10);
+        //country report 6
+        a.printTopCountriesInRegion("Southern Europe",10);
 
         // Disconnect from database
         a.disconnect();
