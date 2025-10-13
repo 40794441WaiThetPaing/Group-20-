@@ -9,5 +9,5 @@ public class City {
 
     public String District;
 
-    public int population;
+    public int Population;
 }
