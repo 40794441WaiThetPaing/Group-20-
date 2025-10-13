@@ -37,7 +37,7 @@ public class App {
                 System.out.println("Successfully connected");
                 break;
             } catch (SQLException sqle) {
-                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
+                System.out.println("Failed to connect to database attempt " + i);
                 System.out.println(sqle.getMessage());
             } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
@@ -53,20 +53,46 @@ public class App {
             try {
                 // Close connection
                 con.close();
+                System.out.println("Disconnected from database.");
             } catch (Exception e) {
-                System.out.println("Error closing connection to database");
+                System.out.println("Error closing connection to database: " + e.getMessage());
             }
         }
     }
 
     public static void main(String[] args) {
-        System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
 
-
         // Connect to database
         a.connect();
+
+        // Check if connection was successful
+        if (a.con != null) {
+            // Create CapitalCityReport instance
+            CapitalCityReport capitalReport = new CapitalCityReport(a.con);
+
+            // === CAPITAL CITY REPORTS ===
+            // 1. All capital cities in the world sorted by population
+            capitalReport.printAllCapitalCitiesWorld();
+
+            // 2. All capital cities in a continent (e.g., "Asia")
+            capitalReport.printCapitalCitiesByContinent("Asia");
+
+            // 3. All capital cities in a region (e.g., "Western Europe")
+            capitalReport.printCapitalCitiesByRegion("Western Europe");
+
+            // 4. Top N capital cities in the world (e.g., Top 10)
+            capitalReport.printTopNCapitalCitiesWorld(10);
+
+            // 5. Top N capital cities in a continent (e.g., Top 5 in Africa)
+            capitalReport.printTopNCapitalCitiesByContinent("Africa", 5);
+
+            // 6. Top N capital cities in a region (e.g., Top 3 in Southern Europe)
+            capitalReport.printTopNCapitalCitiesByRegion("Southern Europe", 3);
+        } else {
+            System.out.println("Connection failed. Reports not generated.");
+        }
 
         // Disconnect from database
         a.disconnect();
