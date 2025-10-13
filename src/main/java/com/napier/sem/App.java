@@ -60,55 +60,47 @@ public class App {
         }
     }
 
-    public ArrayList<City> getAllCitiesByPopulation() {
-        ArrayList<City> cities = new ArrayList<>();
+    /**
+     * Retrieves the total population of the world from the 'country' table.
+     */
+    public long getTotalWorldPopulation() {
+        long totalPopulation = 0;
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
-            String strSelect =
-                    "SELECT city.Name, c.Name, city.District, city.Population\n" +
-                            "From city\n" +
-                            "         JOIN world.country c on city.CountryCode = c.Code\n" +
-                            "ORDER BY Population DESC;";
+            String strSelect = "SELECT SUM(Population) AS TotalWorldPopulation FROM country;";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
-            // Return new employee if valid.
-            // Check one is returned
-            while (rset.next()) {
-                City city = new City();
-                city.Name = rset.getString("Name");
-                city.District = rset.getString("District");
-                city.Population = rset.getInt("Population");
-                cities.add(city);
+            // Retrieve result
+            if (rset.next()) {
+                totalPopulation = rset.getLong("TotalWorldPopulation");
             }
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get employee details");
+            System.out.println("Failed to get total world population");
+        }
+        return totalPopulation;
+    }
 
-        }
-        return cities;
-    }
     /**
-     * Prints city report in the required format.
+     * Prints the total world population.
      */
-    public void printCityReport(ArrayList<City> cities) {
-        System.out.printf("%-30s %-30s %-12s\n", "Name", "District", "Population");
-        for (City city : cities) {
-            System.out.printf("%-30s %-30s %-12d\n", city.Name, city.District, city.Population);
-        }
+    public void printTotalWorldPopulation(long population) {
+        System.out.printf("%-30s %-12d\n", "Total World Population:", population);
     }
+
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
-        // Create new Application
         App a = new App();
-
 
         // Connect to database
         a.connect();
-        ArrayList<City> cities = a.getAllCitiesByPopulation();
-        a.printCityReport(cities);
+
+        // Get and print total world population
+        long totalPopulation = a.getTotalWorldPopulation();
+        a.printTotalWorldPopulation(totalPopulation);
+
         // Disconnect from database
         a.disconnect();
     }
