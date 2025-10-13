@@ -60,55 +60,21 @@ public class App {
         }
     }
 
-    public ArrayList<City> getAllCitiesByPopulation() {
-        ArrayList<City> cities = new ArrayList<>();
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "SELECT city.Name, c.Name, city.District, city.Population\n" +
-                            "From city\n" +
-                            "         JOIN world.country c on city.CountryCode = c.Code\n" +
-                            "ORDER BY Population DESC;";
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Return new employee if valid.
-            // Check one is returned
-            while (rset.next()) {
-                City city = new City();
-                city.Name = rset.getString("Name");
-                city.District = rset.getString("District");
-                city.Population = rset.getInt("Population");
-                cities.add(city);
-            }
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get employee details");
 
-        }
-        return cities;
-    }
-    /**
-     * Prints city report in the required format.
-     */
-    public void printCityReport(ArrayList<City> cities) {
-        System.out.printf("%-30s %-30s %-12s\n", "Name", "District", "Population");
-        for (City city : cities) {
-            System.out.printf("%-30s %-30s %-12d\n", city.Name, city.District, city.Population);
-        }
-    }
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-
+//        GenerateCityReports gcr = new GenerateCityReports();
 
         // Connect to database
         a.connect();
-        ArrayList<City> cities = a.getAllCitiesByPopulation();
-        a.printCityReport(cities);
+
+        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+
+        ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
+        gcr2.printCityReport(cities);
         // Disconnect from database
         a.disconnect();
     }
