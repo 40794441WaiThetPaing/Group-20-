@@ -148,6 +148,47 @@ public class App {
             System.out.println("Error retrieving country report: " + e.getMessage());
         }
     }
+
+    /**
+     * 2. all countries in a continent sorted by population (descending order).
+     * @param continent The name of the continent.
+     */
+    public void printCountriesByContinent(String continent) {
+        try {
+            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
+                    "FROM country c " +
+                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
+                    "WHERE c.Continent = ? " +
+                    "ORDER BY c.Population DESC";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, continent); // safely sets the continent parameter
+
+            ResultSet rset = stmt.executeQuery();
+
+            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
+                    "Code", "Name", "Continent", "Region", "Population", "Capital");
+            System.out.println("----------------------------------------------------------------------------------------------------");
+
+            while (rset.next()) {
+                String code = rset.getString("Code");
+                String name = rset.getString("Name");
+                String cont = rset.getString("Continent");
+                String region = rset.getString("Region");
+                int population = rset.getInt("Population");
+                String capital = rset.getString("Capital");
+
+                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
+                        code, name, cont, region, population, capital);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+
+
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
@@ -157,10 +198,13 @@ public class App {
         // Connect to database
         a.connect();
         ArrayList<City> cities = a.getAllCitiesByPopulation();
-        a.printCityReport(cities);
+        //a.printCityReport(cities);
 
-        //country reports
-        a.printCountriesByPopulation();
+        //country report 1
+        //a.printCountriesByPopulation();
+        //country report 2
+        a.printCountriesByContinent("Asia");
+
         // Disconnect from database
         a.disconnect();
     }
