@@ -69,13 +69,23 @@ public class App {
 //        GenerateCityReports gcr = new GenerateCityReports();
 
         // Connect to database
+
+
         a.connect();
 
-        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+        int n = 10; // user-defined number
+        TopNCityReports report = new TopNCityReports(a.con);
 
-        ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
-        gcr2.printCityReport(cities);
+
+
+        //GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+
+
+       // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
+        //gcr2.printCityReport(cities);
         // Disconnect from database
+
+
         a.disconnect();
     }
 }
