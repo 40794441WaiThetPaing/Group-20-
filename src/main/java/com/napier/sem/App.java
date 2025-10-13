@@ -226,6 +226,46 @@ public class App {
         }
     }
 
+    /**
+     * Prints the top N countries in the world by population.
+     * @param topN The number of countries to display.
+     */
+    public void printTopCountriesByPopulation(int topN) {
+        try {
+            String sql = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital " +
+                    "FROM country c " +
+                    "LEFT JOIN city ci ON c.Capital = ci.ID " +
+                    "ORDER BY c.Population DESC " +
+                    "LIMIT ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, topN); // set the number of countries
+
+            ResultSet rset = stmt.executeQuery();
+
+            System.out.printf("\nTop %d Countries by Population:\n", topN);
+            System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
+                    "Code", "Name", "Continent", "Region", "Population", "Capital");
+            System.out.println("----------------------------------------------------------------------------------------------------");
+
+            while (rset.next()) {
+                String code = rset.getString("Code");
+                String name = rset.getString("Name");
+                String cont = rset.getString("Continent");
+                String region = rset.getString("Region");
+                int population = rset.getInt("Population");
+                String capital = rset.getString("Capital");
+
+                System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
+                        code, name, cont, region, population, capital);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error retrieving top countries by population: " + e.getMessage());
+        }
+    }
+
+
 
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
@@ -243,7 +283,9 @@ public class App {
         //country report 2
         //a.printCountriesByContinent("Asia");
         //country report 3
-        a.printCountriesByRegion("Eastern Asia");
+        //a.printCountriesByRegion("Eastern Asia");
+        //country report 4
+        a.printTopCountriesByPopulation(10);
 
         // Disconnect from database
         a.disconnect();
