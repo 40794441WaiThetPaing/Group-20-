@@ -60,13 +60,17 @@ public class App {
         }
     }
 
+
+
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-
+//        GenerateCityReports gcr = new GenerateCityReports();
 
         // Connect to database
+
+
         a.connect();
         //ArrayList<City> cities = a.getAllCitiesByPopulation();
         //a.printCityReport(cities);
@@ -102,12 +106,15 @@ public class App {
         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
-        //GenerateCityReports gcr2 = new GenerateCityReports(a.con);
-
+        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
        // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
         //gcr2.printCityReport(cities);
         // Disconnect from database
+
+        //Report No.8
+        ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
+        gcr2.printCityReport(cities);
         a.disconnect();
     }
 }
