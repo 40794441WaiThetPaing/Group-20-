@@ -97,6 +97,20 @@ public class App {
         cr.printTopCountriesInRegion("Southern Europe", 10);
 
 
+        PopulationReport reportpp = new PopulationReport(a.con);
+
+        // 1. Population by Country
+        reportpp.printPopulationByCountry();
+
+        // 2. Population by Region
+        reportpp.printPopulationByRegion();
+
+        // 3. Population by Continent
+        reportpp.printPopulationByContinent();
+
+        // 4. Language Report
+        reportpp.printLanguageReport();
+
         int n = 10; // user-defined number
         TopNCityReports report = new TopNCityReports(a.con);
 
