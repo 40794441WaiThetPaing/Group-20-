@@ -95,6 +95,28 @@ public class App {
         /**
          * user-defined number of top cities to display
          */
+
+        // Create instance of report generator
+        GeneralPopulationReports reports = new GeneralPopulationReports(a.con);
+
+        // Get and print total world population
+        long totalPopulation = reports.getTotalWorldPopulation();
+        reports.printTotalWorldPopulation(totalPopulation);
+
+        // Get and print total population for North America
+        long northAmericaPop = reports.getContinentPopulation("North America");
+        reports.printContinentPopulation("North America", northAmericaPop);
+
+        // Get and print total population for Caribbean
+        long caribbeanPop = reports.getRegionPopulation("Caribbean");
+        reports.printRegionPopulation("Caribbean", caribbeanPop);
+
+        //ArrayList<City> cities = a.getAllCitiesByPopulation();
+        //a.printCityReport(cities);
+
+
+
+
         int n = 10; // user-defined number
 
         /**
@@ -114,7 +136,7 @@ public class App {
         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
-           GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
         /**
          * Get all of the cities in the world sort by population and print
