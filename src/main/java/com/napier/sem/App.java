@@ -60,18 +60,31 @@ public class App {
         }
     }
 
-
-
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-//        GenerateCityReports gcr = new GenerateCityReports();
+
 
         // Connect to database
-
-
         a.connect();
+
+
+        // Create instance of report generator
+        GeneralPopulationReports reports = new GeneralPopulationReports(a.con);
+
+        // Get and print total world population
+        long totalPopulation = reports.getTotalWorldPopulation();
+        reports.printTotalWorldPopulation(totalPopulation);
+
+        // Get and print total population for North America
+        long northAmericaPop = reports.getContinentPopulation("North America");
+        reports.printContinentPopulation("North America", northAmericaPop);
+
+        // Get and print total population for Caribbean
+        long caribbeanPop = reports.getRegionPopulation("Caribbean");
+        reports.printRegionPopulation("Caribbean", caribbeanPop);
+
         //ArrayList<City> cities = a.getAllCitiesByPopulation();
         //a.printCityReport(cities);
 
