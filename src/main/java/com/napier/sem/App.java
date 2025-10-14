@@ -73,12 +73,25 @@ public class App {
 
         a.connect();
 
+        /**
+         * user-defined number of top cities to display
+         */
         int n = 10; // user-defined number
+
+        /**
+         * Create report object with database connection
+         */
         TopNCityReports report = new TopNCityReports(a.con);
 
+        /**
+         * Get and Print top N cities in world
+         */
         ArrayList<City> worldCities = report.getTopNCitiesInWorld(n);
         report.printCityReport(worldCities, "Top " + n + " Populated Cities in the World");
 
+        /**
+         * Get and Print top N cities in Asia
+         */
         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
