@@ -66,26 +66,25 @@ public class App {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-//        GenerateCityReports gcr = new GenerateCityReports();
 
         // Connect to database
-
-
         a.connect();
 
         int n = 10; // user-defined number
+        //Report No.1
         TopNCityReports report = new TopNCityReports(a.con);
 
+        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
-
-        //GenerateCityReports gcr2 = new GenerateCityReports(a.con);
-
-
-       // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
+        //Report No. 7
+        // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
         //gcr2.printCityReport(cities);
+
+        //Report No.8
+        ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
+        gcr2.printCityReport(cities);
+
         // Disconnect from database
-
-
         a.disconnect();
     }
 }

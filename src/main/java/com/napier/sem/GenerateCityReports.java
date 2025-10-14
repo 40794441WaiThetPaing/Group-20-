@@ -1,6 +1,7 @@
 package com.napier.sem;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -40,6 +41,35 @@ public class GenerateCityReports {
         }
         return cities;
     }
+
+    public ArrayList<City> getCitiesByContinent(String continent) {
+        ArrayList<City> cities = new ArrayList<>();
+        try {
+            String strSelect =
+                    "SELECT city.Name AS CityName, c.Name AS CountryName, city.District, city.Population " +
+                            "FROM city JOIN world.country c ON city.CountryCode = c.Code " +
+                            "WHERE c.Continent = ? " +
+                            "ORDER BY city.Population DESC;";
+            PreparedStatement stmt = con.prepareStatement(strSelect);
+            stmt.setString(1, continent);
+            ResultSet rset = stmt.executeQuery();
+            while (rset.next()) {
+                City city = new City();
+                city.Name = rset.getString("CityName");
+                city.District = rset.getString("District");
+                city.Population = rset.getInt("Population");
+                Country country = new Country();
+                country.Name = rset.getString("CountryName");
+                city.Country = country;
+                cities.add(city);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details");
+        }
+        return cities;
+    }
+
 
     /**
      * Prints city report in the required format.
