@@ -66,9 +66,14 @@ public class App {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-        // Connect to database
-        a.connect();
+//        GenerateCityReports gcr = new GenerateCityReports();
 
+        // Connect to database
+
+
+        a.connect();
+        //ArrayList<City> cities = a.getAllCitiesByPopulation();
+        //a.printCityReport(cities);
 
         // Create CountryReport object with the connection
         CountryReport cr = new CountryReport(a.con);
@@ -111,8 +116,21 @@ public class App {
         long caribbeanPop = reports.getRegionPopulation("Caribbean");
         reports.printRegionPopulation("Caribbean", caribbeanPop);
 
-        //ArrayList<City> cities = a.getAllCitiesByPopulation();
-        //a.printCityReport(cities);
+
+
+        PopulationReport reportpp = new PopulationReport(a.con);
+        // 1. Population by Country
+        reportpp.printPopulationByCountry();
+
+        // 2. Population by Region
+        reportpp.printPopulationByRegion();
+
+        // 3. Population by Continent
+        reportpp.printPopulationByContinent();
+
+        // 4. Language Report
+        reportpp.printLanguageReport();
+
 
 
 
@@ -136,7 +154,7 @@ public class App {
         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
-           GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
         /**
          * Get all of the cities in the world sort by population and print

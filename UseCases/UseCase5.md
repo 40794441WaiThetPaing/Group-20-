@@ -4,17 +4,17 @@
 
 ### Goal in Context
 
-As a *WHO employee*, I want *to see the total population of the world* so that *I can use it for global reports.*
+As a *Data Analyst*, I want *the population of the world* so that *I can have a global population summary.*
 
-As a *WHO employee*, I want *to see the population of a continent* so that *I can include it in my analysis.*
+As a *Data Analyst*, I want *the population of a continent* so that *I can understand demographic scale continentally.*
 
-As a *WHO employee*, I want *to see the population of a region* so that *I can compare it with other regions.*
+As a *Data Analyst*, I want *the population of a region* so that *I can analyze population in specific regions.*
 
-As a *WHO employee*, I want *to see the population of a country* so that *I can understand that country’s size.*
+As a *Data Analyst*, I want *the population of a country* so that *I can review national population statistics.*
 
-As a *WHO employee*, I want *to see the population of a district* so that *I can look at smaller local populations.*
+As a *Data Analyst*, I want *the population of a district* so that *I can study smaller administrative areas.*
 
-As a *WHO employee*, I want *to see the population of a city* so that *I can understand how many people live in that city.*
+As a *Data Analyst*, I want *the population of a city* so that *I can understand urban population sizes.*
 
 
 ### Scope
@@ -41,7 +41,7 @@ The system fails to produce the information.
 
 ### Primary Actor
 
-World Health Organization Employee
+World Health Organization Data Analyst
 
 ### Trigger
 
@@ -49,10 +49,10 @@ A request for  general(world/continent/region/etc.) population report initiated 
 
 ## MAIN SUCCESS SCENARIO
 
-1. WHO employee starts the database system.
+1. Data analyst starts the database system.
 2. System captures the scope and retrieves the relevant population data from the database.
 3. System compiles and displays a report for each level.
-4. Employee reviews the report for further use in analysis or comparison.
+4. Analyst reviews the report for further use in analysis or comparison.
 
 ## EXTENSIONS
 
