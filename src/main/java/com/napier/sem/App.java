@@ -60,18 +60,38 @@ public class App {
         }
     }
 
-
-
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-//        GenerateCityReports gcr = new GenerateCityReports();
+
 
         // Connect to database
-
-
         a.connect();
+        //ArrayList<City> cities = a.getAllCitiesByPopulation();
+        //a.printCityReport(cities);
+
+        // Create CountryReport object with the connection
+        CountryReport cr = new CountryReport(a.con);
+
+        // 1. All countries by population
+        cr.printCountriesByPopulation();
+
+        // 2. All countries in a continent
+        cr.printCountriesByContinent("Asia");
+
+        // 3. All countries in a region
+        cr.printCountriesByRegion("Eastern Asia");
+
+        // 4. Top N countries in the world
+        cr.printTopCountriesByPopulation(10);
+
+        // 5. Top N countries in a continent
+        cr.printTopCountriesInContinent("Asia", 10);
+
+        // 6. Top N countries in a region
+        cr.printTopCountriesInRegion("Southern Europe", 10);
+
 
         int n = 10; // user-defined number
         TopNCityReports report = new TopNCityReports(a.con);
@@ -88,8 +108,6 @@ public class App {
        // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
         //gcr2.printCityReport(cities);
         // Disconnect from database
-
-
         a.disconnect();
     }
 }
