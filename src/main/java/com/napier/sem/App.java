@@ -1,6 +1,7 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class App {
 
@@ -59,16 +60,36 @@ public class App {
         }
     }
 
+
+
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-
+//        GenerateCityReports gcr = new GenerateCityReports();
 
         // Connect to database
+
+
         a.connect();
 
+        int n = 10; // user-defined number
+        TopNCityReports report = new TopNCityReports(a.con);
+
+        ArrayList<City> worldCities = report.getTopNCitiesInWorld(n);
+        report.printCityReport(worldCities, "Top " + n + " Populated Cities in the World");
+
+        ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
+        report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
+
+        //GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+
+
+       // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
+        //gcr2.printCityReport(cities);
         // Disconnect from database
+
+
         a.disconnect();
     }
 }
