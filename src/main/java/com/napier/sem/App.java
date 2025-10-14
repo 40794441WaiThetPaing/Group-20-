@@ -76,7 +76,11 @@ public class App {
         int n = 10; // user-defined number
         TopNCityReports report = new TopNCityReports(a.con);
 
+        ArrayList<City> worldCities = report.getTopNCitiesInWorld(n);
+        report.printCityReport(worldCities, "Top " + n + " Populated Cities in the World");
 
+        ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
+        report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
         //GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
