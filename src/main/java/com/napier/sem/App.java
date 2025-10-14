@@ -66,9 +66,14 @@ public class App {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-        // Connect to database
-        a.connect();
+//        GenerateCityReports gcr = new GenerateCityReports();
 
+        // Connect to database
+
+
+        a.connect();
+        //ArrayList<City> cities = a.getAllCitiesByPopulation();
+        //a.printCityReport(cities);
 
         // Create CountryReport object with the connection
         CountryReport cr = new CountryReport(a.con);
