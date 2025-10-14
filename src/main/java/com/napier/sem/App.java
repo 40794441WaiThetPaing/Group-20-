@@ -72,6 +72,30 @@ public class App {
 
 
         a.connect();
+        //ArrayList<City> cities = a.getAllCitiesByPopulation();
+        //a.printCityReport(cities);
+
+        // Create CountryReport object with the connection
+        CountryReport cr = new CountryReport(a.con);
+
+        // 1. All countries by population
+        cr.printCountriesByPopulation();
+
+        // 2. All countries in a continent
+        cr.printCountriesByContinent("Asia");
+
+        // 3. All countries in a region
+        cr.printCountriesByRegion("Eastern Asia");
+
+        // 4. Top N countries in the world
+        cr.printTopCountriesByPopulation(10);
+
+        // 5. Top N countries in a continent
+        cr.printTopCountriesInContinent("Asia", 10);
+
+        // 6. Top N countries in a region
+        cr.printTopCountriesInRegion("Southern Europe", 10);
+
 
         int n = 10; // user-defined number
         TopNCityReports report = new TopNCityReports(a.con);
@@ -82,14 +106,15 @@ public class App {
         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
-        //GenerateCityReports gcr2 = new GenerateCityReports(a.con);
-
+        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
        // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
         //gcr2.printCityReport(cities);
         // Disconnect from database
 
-
+        //Report No.8
+        ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
+        gcr2.printCityReport(cities);
         a.disconnect();
     }
 }
