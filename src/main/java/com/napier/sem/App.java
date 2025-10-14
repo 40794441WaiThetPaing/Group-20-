@@ -60,33 +60,15 @@ public class App {
         }
     }
 
+
+
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-
-
         // Connect to database
         a.connect();
 
-
-        // Create instance of report generator
-        GeneralPopulationReports reports = new GeneralPopulationReports(a.con);
-
-        // Get and print total world population
-        long totalPopulation = reports.getTotalWorldPopulation();
-        reports.printTotalWorldPopulation(totalPopulation);
-
-        // Get and print total population for North America
-        long northAmericaPop = reports.getContinentPopulation("North America");
-        reports.printContinentPopulation("North America", northAmericaPop);
-
-        // Get and print total population for Caribbean
-        long caribbeanPop = reports.getRegionPopulation("Caribbean");
-        reports.printRegionPopulation("Caribbean", caribbeanPop);
-
-        //ArrayList<City> cities = a.getAllCitiesByPopulation();
-        //a.printCityReport(cities);
 
         // Create CountryReport object with the connection
         CountryReport cr = new CountryReport(a.con);
@@ -110,22 +92,63 @@ public class App {
         cr.printTopCountriesInRegion("Southern Europe", 10);
 
 
+        /**
+         * user-defined number of top cities to display
+         */
+
+        // Create instance of report generator
+        GeneralPopulationReports reports = new GeneralPopulationReports(a.con);
+
+        // Get and print total world population
+        long totalPopulation = reports.getTotalWorldPopulation();
+        reports.printTotalWorldPopulation(totalPopulation);
+
+        // Get and print total population for North America
+        long northAmericaPop = reports.getContinentPopulation("North America");
+        reports.printContinentPopulation("North America", northAmericaPop);
+
+        // Get and print total population for Caribbean
+        long caribbeanPop = reports.getRegionPopulation("Caribbean");
+        reports.printRegionPopulation("Caribbean", caribbeanPop);
+
+        //ArrayList<City> cities = a.getAllCitiesByPopulation();
+        //a.printCityReport(cities);
+
+
+
+
         int n = 10; // user-defined number
+
+        /**
+         * Create report object with database connection
+         */
         TopNCityReports report = new TopNCityReports(a.con);
 
+        /**
+         * Get and Print top N cities in world
+         */
         ArrayList<City> worldCities = report.getTopNCitiesInWorld(n);
         report.printCityReport(worldCities, "Top " + n + " Populated Cities in the World");
 
+        /**
+         * Get and Print top N cities in Asia
+         */
         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
-        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+           GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
-       // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
+        /**
+         * Get all of the cities in the world sort by population and print
+         */
+        //ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
         //gcr2.printCityReport(cities);
         // Disconnect from database
 
-        //Report No.8
+        /**
+         * Get all of the cities in the Asia sort by population and print
+         */
+
         ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
         gcr2.printCityReport(cities);
         a.disconnect();
