@@ -72,7 +72,7 @@ public class GenerateCityReports {
 
 
     /**
-     * Prints city report in the required format.
+     * Prints city report in the given format.
      */
     public void printCityReport(ArrayList<City> cities) {
         System.out.printf("%-30s %-30s %-30s %-12s%n", "Name", "Country", "District", "Population");
