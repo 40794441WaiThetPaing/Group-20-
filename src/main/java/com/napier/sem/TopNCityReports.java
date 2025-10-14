@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 public class TopNCityReports {
 
+    /**
+     * Database connection used to execute queries
+     */
     private Connection con;
 
     // Constructor
@@ -39,6 +42,9 @@ public class TopNCityReports {
         return cities;
     }
 
+    /**
+     * Retrieves the top N most populated cities in the world.
+     */
     public ArrayList<City> getTopNCitiesInWorld(int n) {
         String query = """
                 SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
@@ -50,6 +56,9 @@ public class TopNCityReports {
         return executeCityQuery(query, n);
     }
 
+    /**
+     * Retrieves the top N most populated cities in continent.
+     */
     public ArrayList<City> getTopNCitiesInContinent(String continent, int n) {
         String query = """
                 SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
@@ -62,6 +71,9 @@ public class TopNCityReports {
         return executeCityQuery(query, continent, n);
     }
 
+    /**
+     * Print cities reports with city name, country, district and population in columns
+     */
     public void printCityReport(ArrayList<City> cities, String title) {
         System.out.println("\n" + title);
         System.out.printf("%-30s %-30s %-30s %-12s%n", "City Name", "Country", "District", "Population");
