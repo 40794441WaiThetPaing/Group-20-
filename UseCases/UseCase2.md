@@ -4,25 +4,25 @@
 
 ### Goal in Context
 
-*As a WHO employee, I want to see all the cities in the world sorted by population so that I can know which cities have the most people.*
+*As a Data Analyst, I want all cities in the world organized by largest population to smallest so that I can analyze most populated global cities.*
 
-*As a WHO employee, I want to see all the cities in a continent sorted by population so that I can study urban population in that area.*
+*As a Data Analyst, I want all cities in a continent organized by largest population to smallest so that I can study the populations of the cities continentally.*
 
-*As a WHO employee, I want to see all the cities in a region sorted by population so that I can compare city populations across regions.*
+*As a Data Analyst, I want all cities in a region organized by largest population to smallest so that I can compare city populations regionally.*
 
-*As a WHO employee, I want to see all the cities in a country sorted by population so that I can understand the largest cities in that country.*
+*As a Data Analyst, I want all cities in a country organized by largest population to smallest so that I can analyze a country’s cities population.*
 
-*As a WHO employee, I want to see all the cities in a district sorted by population so that I can study smaller areas.*
+*As a Data Analyst, I want all cities in a district organized by largest population to smallest so that I can analyze the population of the cities in that district.*
 
-*As a WHO employee, I want to view the top N cities in the world so that I can focus on the biggest global cities.*
+*As a Data Analyst, I want the top N populated cities in the world where N is provided so that I can focus on major global cities.*
 
-*As a WHO employee, I want to view the top N cities in a continent so that I can analyze large cities in that continent.*
+*As a Data Analyst, I want the top N populated cities in a continent where N is provided so that I can analyze major cities continent-wide.*
 
-*As a WHO employee, I want to view the top N cities in a region so that I can compare the main cities in that region.*
+*As a Data Analyst, I want the top N populated cities in a region where N is provided so that I can focus on key cities in that region.*
 
-*As a WHO employee, I want to view the top N cities in a country so that I can focus on the largest cities there.*
+*As a Data Analyst, I want the top N populated cities in a country where N is provided so that I can analyze the largest cities nationally.*
 
-*As a WHO employee, I want to view the top N cities in a district so that I can focus on the biggest cities in that district.*
+*As a Data Analyst, I want the top N populated cities in a district where N is provided so that I can review key cities locally.*
 ### Scope
 
 *World, continent, region, country, district*
@@ -47,23 +47,29 @@
 
 ### Primary Actor
 
-*World Health Organization Employee*
+*Data Analyst*
 
 ### Trigger
 
-*A request for city population reports initiated by WHO internal processes or external stakeholders.*
+*Request for city population data to support planning or analysis.*
 
 ## MAIN SUCCESS SCENARIO
 
-*1. WHO employee initiates a request for a city population report.*
+*1. Data Analyst requests a city population report.*
 
-*2. WHO employee captures the scope (which continent, country, region, district) to get the city population reports*
+*2. Data Analyst captures the scope (which continent, country, region, district) to get the city population reports*
 
 *3. WHO employee captures Top N to see the most populated cities*
 
+*4. System retrieves relevant city population data from the database.*
+
+
+
 ## EXTENSIONS
 
-2. **If scope or parameters are missing/invalid**: System requests correction or notifies that no data is available.
+2. **If scope or parameters are missing/invalid**: System requests valid parameter.
+
+3. **No cities found**:  system notifies analyst, no report.
 
 ## SUB-VARIATIONS
 
