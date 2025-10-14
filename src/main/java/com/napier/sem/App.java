@@ -116,8 +116,21 @@ public class App {
         long caribbeanPop = reports.getRegionPopulation("Caribbean");
         reports.printRegionPopulation("Caribbean", caribbeanPop);
 
-        //ArrayList<City> cities = a.getAllCitiesByPopulation();
-        //a.printCityReport(cities);
+
+
+        PopulationReport reportpp = new PopulationReport(a.con);
+        // 1. Population by Country
+        reportpp.printPopulationByCountry();
+
+        // 2. Population by Region
+        reportpp.printPopulationByRegion();
+
+        // 3. Population by Continent
+        reportpp.printPopulationByContinent();
+
+        // 4. Language Report
+        reportpp.printLanguageReport();
+
 
 
 
