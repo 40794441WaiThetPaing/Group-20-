@@ -66,14 +66,9 @@ public class App {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-//        GenerateCityReports gcr = new GenerateCityReports();
-
         // Connect to database
-
-
         a.connect();
-        //ArrayList<City> cities = a.getAllCitiesByPopulation();
-        //a.printCityReport(cities);
+
 
         // Create CountryReport object with the connection
         CountryReport cr = new CountryReport(a.con);
@@ -121,11 +116,16 @@ public class App {
 
         GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
+        /**
+         * Get all of the cities in the world sort by population and print
+         */
        // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
         //gcr2.printCityReport(cities);
         // Disconnect from database
 
-        //Report No.8
+        /**
+         * Get all of the cities in the Asia sort by population and print
+         */
         ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
         gcr2.printCityReport(cities);
         a.disconnect();
