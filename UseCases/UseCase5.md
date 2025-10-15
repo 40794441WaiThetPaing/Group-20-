@@ -30,7 +30,7 @@ The system fails to produce the information.
 
 ### Primary Actor
 
-World Health Organization Data Analyst
+Data Analyst
 
 ### Trigger
 
