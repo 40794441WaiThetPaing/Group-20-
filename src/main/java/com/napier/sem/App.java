@@ -68,8 +68,6 @@ public class App {
 
         // Connect to database
         a.connect();
-        //ArrayList<City> cities = a.getAllCitiesByPopulation();
-        //a.printCityReport(cities);
 
         // Create CountryReport object with the connection
         CountryReport cr = new CountryReport(a.con);
