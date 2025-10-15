@@ -178,7 +178,7 @@ public class App {
         GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
         /**
-         * Get all of the cities in the world sort by population and print
+         * Get all of cities in the world sort by population and print
          */
         //ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
         //gcr2.printCityReport(cities);
