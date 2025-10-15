@@ -14,6 +14,10 @@ public class GenerateCityReports {
         this.con = con;
     }
 
+    /**
+     * Retrieve the cities in the world sorted by population largest to smallest
+     * @return cities
+     */
     public ArrayList<City> getAllCitiesByPopulation() {
         ArrayList<City> cities = new ArrayList<>();
         try {
@@ -42,6 +46,11 @@ public class GenerateCityReports {
         return cities;
     }
 
+    /**
+     * Retrieve the cities in one continent and sorted by population largest to smallest
+     * @param continent
+     * @return cities
+     */
     public ArrayList<City> getCitiesByContinent(String continent) {
         ArrayList<City> cities = new ArrayList<>();
         try {
@@ -72,7 +81,7 @@ public class GenerateCityReports {
 
 
     /**
-     * Prints city report in the required format.
+     * Prints city reports in the given format.
      */
     public void printCityReport(ArrayList<City> cities) {
         System.out.printf("%-30s %-30s %-30s %-12s%n", "Name", "Country", "District", "Population");

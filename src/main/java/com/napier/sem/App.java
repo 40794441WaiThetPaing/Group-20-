@@ -66,55 +66,57 @@ public class App {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
-//        GenerateCityReports gcr = new GenerateCityReports();
+
 
         // Connect to database
-
-
         a.connect();
-        //ArrayList<City> cities = a.getAllCitiesByPopulation();
-        //a.printCityReport(cities);
 
         // Create CountryReport object with the connection
         CountryReport cr = new CountryReport(a.con);
 
         // 1. All countries by population
-        //cr.printCountriesByPopulation();
+        cr.printCountriesByPopulation();
 
         // 2. All countries in a continent
-        //cr.printCountriesByContinent("Asia");
+        cr.printCountriesByContinent("Asia");
 
         // 3. All countries in a region
-        //cr.printCountriesByRegion("Eastern Asia");
+        cr.printCountriesByRegion("Eastern Asia");
 
         // 4. Top N countries in the world
-        //cr.printTopCountriesByPopulation(10);
+        cr.printTopCountriesByPopulation(10);
 
         // 5. Top N countries in a continent
-        //cr.printTopCountriesInContinent("Asia", 10);
+        cr.printTopCountriesInContinent("Asia", 10);
 
         // 6. Top N countries in a region
         cr.printTopCountriesInRegion("Southern Europe", 10);
 
 
-//        int n = 10; // user-defined number
-//        TopNCityReports report = new TopNCityReports(a.con);
-//
-//        ArrayList<City> worldCities = report.getTopNCitiesInWorld(n);
-//        report.printCityReport(worldCities, "Top " + n + " Populated Cities in the World");
-//
-//        ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
-//        report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
-//
-//        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+        int n = 10; // user-defined number
+        TopNCityReports report = new TopNCityReports(a.con);
 
-       // ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
+        ArrayList<City> worldCities = report.getTopNCitiesInWorld(n);
+        report.printCityReport(worldCities, "Top " + n + " Populated Cities in the World");
+
+        ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
+        report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
+
+        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+
+        /**
+         * Get all of the cities in the world sort by population and print
+         */
+        //ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
         //gcr2.printCityReport(cities);
-        // Disconnect from database
 
-        //Report No.8
-//        ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
-//        gcr2.printCityReport(cities);
-//        a.disconnect();
+        /**
+         * Get all of the cities in the Asia sort by population and print
+         */
+
+        ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
+        gcr2.printCityReport(cities);
+        // Disconnect from database
+        a.disconnect();
     }
 }

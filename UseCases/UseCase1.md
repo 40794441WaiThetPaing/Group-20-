@@ -18,41 +18,41 @@ As a *Data Analyst*, I want *the top N populated countries in a region* so that 
 
 ### Scope
 
-*Covering world, continent, region, and capital levels*
+Covering world, continent, region, and capital levels
 
 ### Level
 
-*Primary task*
+Primary task
 
 ### Preconditions
 
-*The database contains the population data of each country and correct geographic classification.*
+The database contains the population data of each country and correct geographic classification.
 
-*The user knows the required scope (world, continent, region, capital) and top N.*
+The user knows the required scope (world, continent, region, capital) and top N.
 
 ### Success End Condition
 
-*The system generates and displays the corresponding reports which includes the columns: Code, Name, Continent, Region, Population, Capital.*
+The system generates and displays the corresponding reports which includes the columns: Code, Name, Continent, Region, Population, Capital.
 
 ### Failed End Condition
 
-*No report is produced.*
+No report is produced.
 
 ### Primary Actor
 
-*Data Analyst*
+Data Analyst
 
 ### Trigger
 
-*A request for country population reports initiated by WHO internal processes or external stakeholders.*
+A request for country population reports initiated by WHO internal processes or external stakeholders.
 
 ## MAIN SUCCESS SCENARIO
 
-*1. Data Analyst initiates a request for a country population report.*
+1. Data Analyst initiates a request for a country population report.
 
-*2. Data Analyst captures the scope (which world, continent, region, capital) to get the country population reports*
+2. Data Analyst captures the scope (which world, continent, region, capital) to get the country population reports
 
-*3. Data Analyst employee captures Top N to see the most populated countries*
+3. Data Analyst employee captures Top N to see the most populated countries
 
 ## EXTENSIONS
 
@@ -64,5 +64,5 @@ None
 
 ## SCHEDULE
 
-**DUE DATE**: *Release 1.0*
+**DUE DATE**: Release 1.0
 
