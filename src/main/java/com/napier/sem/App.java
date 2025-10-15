@@ -68,8 +68,6 @@ public class App {
 
         // Connect to database
         a.connect();
-        //ArrayList<City> cities = a.getAllCitiesByPopulation();
-        //a.printCityReport(cities);
 
         // Create CountryReport object with the connection
         CountryReport cr = new CountryReport(a.con);
@@ -113,6 +111,7 @@ public class App {
         reports.printRegionPopulation("Caribbean", caribbeanPop);
 
 
+
         PopulationReport reportpp = new PopulationReport(a.con);
         // 1. Population by Country
         reportpp.printPopulationByCountry();
@@ -125,6 +124,8 @@ public class App {
 
         // 4. Language Report
         reportpp.printLanguageReport();
+
+
 
 
         // Check if connection was successful
@@ -171,8 +172,8 @@ public class App {
         /**
          * Get and Print top N cities in Asia
          */
-         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
-         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
+        ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
+        report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
         GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
