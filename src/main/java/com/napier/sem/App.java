@@ -161,7 +161,6 @@ public class App {
          */
         //ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
         //gcr2.printCityReport(cities);
-        // Disconnect from database
 
         /**
          * Get all of the cities in the Asia sort by population and print
@@ -169,6 +168,7 @@ public class App {
 
         ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
         gcr2.printCityReport(cities);
+        // Disconnect from database
         a.disconnect();
     }
 }
