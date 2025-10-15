@@ -1,6 +1,7 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class App {
 
@@ -37,7 +38,7 @@ public class App {
                 System.out.println("Successfully connected");
                 break;
             } catch (SQLException sqle) {
-                System.out.println("Failed to connect to database attempt " + i);
+                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
                 System.out.println(sqle.getMessage());
             } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
@@ -53,19 +54,81 @@ public class App {
             try {
                 // Close connection
                 con.close();
-                System.out.println("Disconnected from database.");
             } catch (Exception e) {
-                System.out.println("Error closing connection to database: " + e.getMessage());
+                System.out.println("Error closing connection to database");
             }
         }
     }
 
     public static void main(String[] args) {
+        System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
 
+
         // Connect to database
         a.connect();
+        //ArrayList<City> cities = a.getAllCitiesByPopulation();
+        //a.printCityReport(cities);
+
+        // Create CountryReport object with the connection
+        CountryReport cr = new CountryReport(a.con);
+
+        // 1. All countries by population
+        cr.printCountriesByPopulation();
+
+        // 2. All countries in a continent
+        cr.printCountriesByContinent("Asia");
+
+        // 3. All countries in a region
+        cr.printCountriesByRegion("Eastern Asia");
+
+        // 4. Top N countries in the world
+        cr.printTopCountriesByPopulation(10);
+
+        // 5. Top N countries in a continent
+        cr.printTopCountriesInContinent("Asia", 10);
+
+        // 6. Top N countries in a region
+        cr.printTopCountriesInRegion("Southern Europe", 10);
+
+
+        /**
+         * user-defined number of top cities to display
+         */
+
+        // Create instance of report generator
+        GeneralPopulationReports reports = new GeneralPopulationReports(a.con);
+
+        // Get and print total world population
+        long totalPopulation = reports.getTotalWorldPopulation();
+        reports.printTotalWorldPopulation(totalPopulation);
+
+        // Get and print total population for North America
+        long northAmericaPop = reports.getContinentPopulation("North America");
+        reports.printContinentPopulation("North America", northAmericaPop);
+
+        // Get and print total population for Caribbean
+        long caribbeanPop = reports.getRegionPopulation("Caribbean");
+        reports.printRegionPopulation("Caribbean", caribbeanPop);
+
+
+
+        PopulationReport reportpp = new PopulationReport(a.con);
+        // 1. Population by Country
+        reportpp.printPopulationByCountry();
+
+        // 2. Population by Region
+        reportpp.printPopulationByRegion();
+
+        // 3. Population by Continent
+        reportpp.printPopulationByContinent();
+
+        // 4. Language Report
+        reportpp.printLanguageReport();
+
+
+
 
         // Check if connection was successful
         if (a.con != null) {
@@ -94,6 +157,40 @@ public class App {
             System.out.println("Connection failed. Reports not generated.");
         }
 
+
+        int n = 10; // user-defined number
+
+        /**
+         * Create report object with database connection
+         */
+        TopNCityReports report = new TopNCityReports(a.con);
+
+        /**
+         * Get and Print top N cities in world
+         */
+        ArrayList<City> worldCities = report.getTopNCitiesInWorld(n);
+        report.printCityReport(worldCities, "Top " + n + " Populated Cities in the World");
+
+        /**
+         * Get and Print top N cities in Asia
+         */
+        ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
+        report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
+
+        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+
+        /**
+         * Get all of the cities in the world sort by population and print
+         */
+        //ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
+        //gcr2.printCityReport(cities);
+
+        /**
+         * Get all of the cities in the Asia sort by population and print
+         */
+
+        ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
+        gcr2.printCityReport(cities);
         // Disconnect from database
         a.disconnect();
     }

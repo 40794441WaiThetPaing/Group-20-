@@ -11,4 +11,5 @@ public class City {
 
     public int Population;
 
+    public Country Country;
 }
