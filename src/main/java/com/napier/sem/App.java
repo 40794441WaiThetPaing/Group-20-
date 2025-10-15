@@ -113,7 +113,6 @@ public class App {
         reports.printRegionPopulation("Caribbean", caribbeanPop);
 
 
-
         PopulationReport reportpp = new PopulationReport(a.con);
         // 1. Population by Country
         reportpp.printPopulationByCountry();
@@ -126,8 +125,6 @@ public class App {
 
         // 4. Language Report
         reportpp.printLanguageReport();
-
-
 
 
         // Check if connection was successful
@@ -174,8 +171,8 @@ public class App {
         /**
          * Get and Print top N cities in Asia
          */
-        ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
-        report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
+         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
+         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
         GenerateCityReports gcr2 = new GenerateCityReports(a.con);
 
@@ -191,6 +188,7 @@ public class App {
 
         ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
         gcr2.printCityReport(cities);
+
         // Disconnect from database
         a.disconnect();
     }
