@@ -4,18 +4,7 @@
 
 ### Goal in Context
 
-As a *Data Analyst*, I want *the population of the world* so that *I can have a global population summary.*
-
-As a *Data Analyst*, I want *the population of a continent* so that *I can understand demographic scale continentally.*
-
-As a *Data Analyst*, I want *the population of a region* so that *I can analyze population in specific regions.*
-
-As a *Data Analyst*, I want *the population of a country* so that *I can review national population statistics.*
-
-As a *Data Analyst*, I want *the population of a district* so that *I can study smaller administrative areas.*
-
-As a *Data Analyst*, I want *the population of a city* so that *I can understand urban population sizes.*
-
+As a *Data Analyst*, I want *to access population data (world, continent, region, country, district, city)* so that *I can create reports, perform comparisons, and conduct analysis.*
 
 ### Scope
 
