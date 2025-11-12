@@ -26,14 +26,15 @@ public class TopNCityReports {
             ResultSet rset = pstmt.executeQuery();
             while (rset.next()) {
                 City city = new City();
-                city.Name = rset.getString("CityName");
+                city.setName(rset.getString("CityName"));
 
                 Country country = new Country();
-                country.Name = rset.getString("CountryName");
-                city.Country = country;
+                country.setName(rset.getString("CountryName"));
+                city.setCountry(country);
 
-                city.District = rset.getString("District");
-                city.Population = rset.getInt("Population");
+                city.setDistrict(rset.getString("District"));
+                city.setPopulation(rset.getInt("Population"));
+
                 cities.add(city);
             }
         } catch (SQLException e) {
@@ -78,9 +79,9 @@ public class TopNCityReports {
         System.out.println("\n" + title);
         System.out.printf("%-30s %-30s %-30s %-12s%n", "City Name", "Country", "District", "Population");
         for (City city : cities) {
-            String countryName = (city.Country != null && city.Country.Name != null) ? city.Country.Name : "Unknown";
+            String countryName = (city.getCountry() != null && city.getCountry().getName() != null) ? city.getCountry().getName() : "Unknown";
             System.out.printf("%-30s %-30s %-30s %-12d%n",
-                    city.Name, countryName, city.District, city.Population);
+                    city.getName(), countryName, city.getDistrict(), city.getPopulation());
         }
     }
 }
