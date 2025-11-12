@@ -65,7 +65,6 @@ public class App {
         // Create new Application
         App a = new App();
 
-
         // Connect to database
         a.connect();
 
@@ -111,7 +110,6 @@ public class App {
         reports.printRegionPopulation("Caribbean", caribbeanPop);
 
 
-
         PopulationReport reportpp = new PopulationReport(a.con);
         // 1. Population by Country
         reportpp.printPopulationByCountry();
@@ -124,8 +122,6 @@ public class App {
 
         // 4. Language Report
         reportpp.printLanguageReport();
-
-
 
 
         // Check if connection was successful
@@ -175,20 +171,28 @@ public class App {
         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
-        GenerateCityReports gcr2 = new GenerateCityReports(a.con);
+        // Generate City Report
+        GenerateCityReports gcr = new GenerateCityReports(a.con);
 
-        /**
-         * Get all of cities in the world sort by population and print
-         */
-        //ArrayList<City> cities = gcr2.getAllCitiesByPopulation();
-        //gcr2.printCityReport(cities);
+        //Example: All cities in the world
+        ArrayList<City> allcities = gcr.getAllCitiesByPopulation();
+        gcr.printCityReport(allcities);
 
-        /**
-         * Get all of the cities in the Asia sort by population and print
-         */
+        //Example: Cities by continent
+        ArrayList<City> asianCities = gcr.getCitiesByContinent("Asia");
+        gcr.printCityReport(asianCities);
 
-        ArrayList<City> cities = gcr2.getCitiesByContinent("Asia"); // Specify the continent here
-        gcr2.printCityReport(cities);
+        // Example: Cities by region
+        ArrayList<City> westernEuropeCities = gcr.getCitiesByRegion("Western Europe");
+        gcr.printCityReport(westernEuropeCities);
+
+        // Example: Cities by country
+        ArrayList<City> japaneseCities = gcr.getCitiesByCountry("Japan");
+        gcr.printCityReport(japaneseCities);
+
+        // Example: Cities by district
+        ArrayList<City> englandCities = gcr.getCitiesByDistrict("England");
+        gcr.printCityReport(englandCities);
 
         // Disconnect from database
         a.disconnect();

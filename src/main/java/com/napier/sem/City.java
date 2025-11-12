@@ -1,15 +1,50 @@
 package com.napier.sem;
 
 public class City {
-    public int ID;
+    private int id;
+    private String name;
+    private String district;
+    private int population;
+    private Country country;
 
-    public String Name;
+    // --- Getters and Setters ---
+    public int getId() {
+        return id;
+    }
 
-    public String CountryCode;
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String District;
+    public String getName() {
+        return name;
+    }
 
-    public int Population;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public Country Country;
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
 }
