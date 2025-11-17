@@ -15,23 +15,25 @@ public class GenerateCityReports {
 
     // 1. All cities in world sorted by population
     public ArrayList<City> getAllCitiesByPopulation() {
-        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, city.District, city.Population " +
+        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code " +
                 "ORDER BY city.Population DESC;";
+
         return executeCityQuery(sql);
     }
 
     // 2. All cities in a continent sorted by population
     public ArrayList<City> getCitiesByContinent(String continent) {
-        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, city.District, city.Population " +
+        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code WHERE c.Continent = ? " +
                 "ORDER BY city.Population DESC;";
+
         return executeCityQueryWithParam(sql, continent);
     }
 
     // 3. All cities in a region sorted by population
     public ArrayList<City> getCitiesByRegion(String region) {
-        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, city.District, city.Population " +
+        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName,c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code WHERE c.Region = ? " +
                 "ORDER BY city.Population DESC;";
         return executeCityQueryWithParam(sql, region);
@@ -39,7 +41,7 @@ public class GenerateCityReports {
 
     // 4. All cities in country sorted by population
     public ArrayList<City> getCitiesByCountry(String country) {
-        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, city.District, city.Population " +
+        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code WHERE c.Name = ? " +
                 "ORDER BY city.Population DESC;";
         return executeCityQueryWithParam(sql, country);
@@ -47,7 +49,7 @@ public class GenerateCityReports {
 
     // 5. All cities in a district sorted by population
     public ArrayList<City> getCitiesByDistrict(String district) {
-        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, city.District, city.Population " +
+        String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code WHERE city.District = ? " +
                 "ORDER BY city.Population DESC;";
         return executeCityQueryWithParam(sql, district);
@@ -91,11 +93,15 @@ public class GenerateCityReports {
         city.setName(rset.getString("CityName"));
         city.setDistrict(rset.getString("District"));
         city.setPopulation(rset.getInt("Population"));
+
         Country country = new Country();
         country.setName(rset.getString("CountryName"));
+        country.setContinent(rset.getString("Continent"));  // Set Continent
+        country.setRegion(rset.getString("Region"));  // NEW: set region here
         city.setCountry(country);
         return city;
     }
+
 
     public void printCityReport(ArrayList<City> cities) {
         if (cities == null) {
