@@ -1,6 +1,9 @@
 name: Build and Test - Population Reporting System
 on: push
 
+permissions:
+  contents: write
+
 jobs:
   UnitTests:
     name: Unit Tests
@@ -19,6 +22,7 @@ jobs:
         run: |
           mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsTest test
+          
 
 
   IntegrationTests:
