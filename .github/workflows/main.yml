@@ -17,6 +17,7 @@ jobs:
           distribution: 'temurin'
       - name: Unit Tests
         run: mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
+            mvn -Dtest=com.napier.sem.TopNCityReportsTest test
 
   build:
     name: Build and Start Using docker-compose
