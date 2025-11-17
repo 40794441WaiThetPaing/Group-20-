@@ -171,7 +171,27 @@ public class App {
         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
-        // Generate City Report
+
+        /**
+         * Get and Print top N cities in Eastern Asia
+         */
+        ArrayList<City> regionCities = report.getTopNCitiesInRegion("Eastern Asia", n);
+        report.printCityReport(regionCities, "Top " + n + " Populated Cities in Eastern Asia");
+
+        /**
+         * Get and Print top N cities in Japan
+         */
+        ArrayList<City> countryCities = report.getTopNCitiesInCountry("Japan", n);
+        report.printCityReport(countryCities, "Top " + n + " Populated Cities in Japan");
+
+        /**
+         * Get and Print top N cities in Tokyo
+         */
+        ArrayList<City> districtCities = report.getTopNCitiesInDistrict("Tokyo-to", n);
+        report.printCityReport(districtCities, "Top " + n + " Populated Cities in Tokyo-to");
+
+
+    // Generate City Report
         GenerateCityReports gcr = new GenerateCityReports(a.con);
 
         //Example: All cities in the world

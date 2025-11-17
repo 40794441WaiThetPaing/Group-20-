@@ -73,6 +73,52 @@ public class TopNCityReports {
     }
 
     /**
+     * Retrieves the top N most populated cities in region.
+     */
+    public ArrayList<City> getTopNCitiesInRegion(String region, int n) {
+        String query = """
+            SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
+            FROM city
+            JOIN country ON city.CountryCode = country.Code
+            WHERE country.Region = ?
+            ORDER BY city.Population DESC
+            LIMIT ?;
+            """;
+        return executeCityQuery(query, region, n);
+    }
+
+    /**
+     * Retrieves the top N most populated cities in country.
+     */
+    public ArrayList<City> getTopNCitiesInCountry(String countryName, int n) {
+        String query = """
+            SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
+            FROM city
+            JOIN country ON city.CountryCode = country.Code
+            WHERE country.Name = ?
+            ORDER BY city.Population DESC
+            LIMIT ?;
+            """;
+        return executeCityQuery(query, countryName, n);
+    }
+
+    /**
+     * Retrieves the top N most populated cities in district.
+     */
+    public ArrayList<City> getTopNCitiesInDistrict(String district, int n) {
+        String query = """
+            SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
+            FROM city
+            JOIN country ON city.CountryCode = country.Code
+            WHERE city.District = ?
+            ORDER BY city.Population DESC
+            LIMIT ?;
+            """;
+        return executeCityQuery(query, district, n);
+    }
+
+
+    /**
      * Print cities reports with city name, country, district and population in columns
      */
     public void printCityReport(ArrayList<City> cities, String title) {
