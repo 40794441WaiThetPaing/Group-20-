@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master
-      - city_reports
 
 permissions:
   contents: write
