@@ -38,7 +38,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Integration Tests
+      - name: Integration Tests and CodeCov
         run: |
           docker build -t database ./database 
           docker run --name employees -dp 33060:3306 database
@@ -46,8 +46,16 @@ jobs:
           mvn -Dtest=com.napier.sem.TopNCityReportsIntegrationTest test
           docker stop employees
           docker rm employees
-          docker image rm database                    
-
+          docker image rm database                                       
+      - name: Shutdown
+        run: docker compose down
+      - name: CodeCov
+        uses: codecov/codecov-action@v5
+        with:
+          #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          directory: ./target/site/jacoco
+          flags: Integration Tests # optional
+          verbose: true # optional (default = false)
   build:
     name: Build and Start Using docker-compose
     runs-on: ubuntu-22.04
