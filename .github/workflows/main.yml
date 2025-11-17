@@ -22,7 +22,17 @@ jobs:
         run: |
           mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsTest test
-  
+      - name: List dirs
+        run: |
+          cd ./target/site/jacoco
+          pwd
+          ls
+      - name: CodeCov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+  #       directory: ./target/site/jacoco
+  #          verbose: true # optional (default = false)
   
 
   IntegrationTests:
