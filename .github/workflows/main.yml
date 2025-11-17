@@ -1,10 +1,5 @@
 name: Build and Test - Population Reporting System
-
-on:
-  push:
-    branches:
-      - master
-      - develop
+on: push
 
 permissions:
   contents: write
@@ -14,38 +9,27 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Run Unit Tests
+      - name: Unit Tests
         run: |
           mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsTest test
+  
+  
 
   IntegrationTests:
     name: Integration Tests
     runs-on: ubuntu-22.04
-    services:
-      db:
-        image: mysql:8.0
-        ports:
-          - 33060:3306
-        env:
-          MYSQL_ROOT_PASSWORD: example
-          MYSQL_DATABASE: world
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -54,24 +38,21 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Wait for MySQL to be ready
+      - name: Integration Tests
         run: |
-          echo "Waiting for MySQL to start..."
-          for i in {1..30}; do
-            mysqladmin ping -h 127.0.0.1 -P 33060 -u root -pexample &> /dev/null && break
-            echo "Waiting..."
-            sleep 2
-          done
-      - name: Run Integration Tests
-        run: |
+          docker build -t database ./database 
+          docker run --name employees -dp 33060:3306 database
           mvn -Dtest=com.napier.sem.GenerateCityReportsIntegrationTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsIntegrationTest test
+          docker stop employees
+          docker rm employees
+          docker image rm database                    
 
-  Build:
-    name: Build and Start Using Docker Compose
+  build:
+    name: Build and Start Using docker-compose
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -80,7 +61,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Package and Run Docker Compose
+      - name: Package and Run docker compose
         run: |
           mvn package -DskipTests
           docker compose up --abort-on-container-exit
