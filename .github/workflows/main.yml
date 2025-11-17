@@ -37,7 +37,7 @@ jobs:
           distribution: 'temurin'
       - name: Integration Tests
         run: |
-          docker build -t database ./db 
+          docker build -t database ./database 
           docker run --name employees -dp 33060:3306 database
           mvn -Dtest=com.napier.sem.GenerateCityReportsIntegrationTest test
           docker stop employees
