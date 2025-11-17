@@ -22,7 +22,7 @@ jobs:
         run: |
           mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsTest test
-          mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
+          
 
 
   IntegrationTests:
