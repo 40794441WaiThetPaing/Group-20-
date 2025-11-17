@@ -1,9 +1,6 @@
 name: Build and Test - Population Reporting System
-on:
-  push:
-    branches:
-      - master
-      - feature/city_reports
+on: push
+
 jobs:
   UnitTests:
     name: Unit Tests
@@ -19,6 +16,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Unit Tests
+        run: |
+          mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
+          mvn -Dtest=com.napier.sem.TopNCityReportsTest test
         run:
           mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
 
