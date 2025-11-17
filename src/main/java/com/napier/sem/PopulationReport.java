@@ -77,9 +77,9 @@ public class PopulationReport {
             while (rs.next()) {
                 System.out.printf("%-30s %-15d %-15d %-15d%n",
                         rs.getString("Region"),
-                        rs.getInt("TotalPopulation"),
-                        rs.getInt("CityPopulation"),
-                        rs.getInt("NonCityPopulation"));
+                        rs.getLong("TotalPopulation"),
+                        rs.getLong("CityPopulation"),
+                        rs.getLong("NonCityPopulation"));
             }
 
         } catch (Exception e) {
@@ -116,9 +116,9 @@ public class PopulationReport {
             while (rs.next()) {
                 System.out.printf("%-20s %-15d %-15d %-15d%n",
                         rs.getString("Continent"),
-                        rs.getInt("TotalPopulation"),
-                        rs.getInt("CityPopulation"),
-                        rs.getInt("NonCityPopulation"));
+                        rs.getLong("TotalPopulation"),
+                        rs.getLong("CityPopulation"),
+                        rs.getLong("NonCityPopulation"));
             }
 
         } catch (Exception e) {

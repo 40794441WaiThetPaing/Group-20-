@@ -57,12 +57,12 @@ public class GenerateCityReports {
     // Helper to execute queries without params, no limit
     private ArrayList<City> executeCityQuery(String sql) {
         ArrayList<City> cities = new ArrayList<>();
-        try (Statement stmt = con.createStatement()){
+        try (Statement stmt = con.createStatement()) {
             ResultSet rset = stmt.executeQuery(sql);
-            while(rset.next()) {
+            while (rset.next()) {
                 cities.add(createCityFromResultSet(rset));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get city details");
         }
@@ -72,10 +72,10 @@ public class GenerateCityReports {
     // Helper to execute queries with one parameter, no limit
     private ArrayList<City> executeCityQueryWithParam(String sql, String param) {
         ArrayList<City> cities = new ArrayList<>();
-        try(PreparedStatement stmt = con.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setString(1, param);
             ResultSet rset = stmt.executeQuery();
-            while(rset.next()) {
+            while (rset.next()) {
                 cities.add(createCityFromResultSet(rset));
             }
         } catch (Exception e) {
@@ -98,12 +98,25 @@ public class GenerateCityReports {
     }
 
     public void printCityReport(ArrayList<City> cities) {
-        System.out.printf("%-30s %-30s %-30s %-12s%n", "Name", "Country", "District", "Population");
-        for (City city : cities)
-        {
-            String countryName = (city.getCountry() != null && city.getCountry().getName() != null) ? city.getCountry().getName() : "Unknown";
+        if (cities == null) {
+            System.out.println("No cities");
+            return;
+        }
+
+        System.out.printf("%-30s %-30s %-30s %-12s%n",
+                "Name", "Country", "District", "Population");
+
+        for (City city : cities) {
+            if (city == null)
+                continue;
+
+            String countryName = (city.getCountry() != null && city.getCountry().getName() != null)
+                    ? city.getCountry().getName()
+                    : "Unknown";
+
             System.out.printf("%-30s %-30s %-30s %-12d%n",
                     city.getName(), countryName, city.getDistrict(), city.getPopulation());
         }
     }
+
 }

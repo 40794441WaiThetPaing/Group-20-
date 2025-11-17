@@ -4,17 +4,17 @@
 
 ### Goal in Context
 
-As a Data Analyst, I want all countries in the world organized by largest population to smallest so that I can get a global population overview.
+As a *Data Analyst*, I want *all countries in the world organized by largest population to smallest* so that *I can get a global population overview.*
 
-As a Data Analyst, I want all countries in a continent organized by largest population to smallest so that I can analyze population distribution in that continent.
+As a *Data Analyst*, I want *all countries in a continent organized by largest population to smallest* so that *I can analyze population distribution in that continent.*
 
-As a Data Analyst, I want all countries in a region organized by largest population to smallest so that I can analyze population regionally.
+As a *Data Analyst*, I want *all countries in a region organized by largest population to smallest* so that *I can analyze population regionally.*
 
-As a Data Analyst, I want the top N populated countries in the world so that I can focus on largest global countries.
+As a *Data Analyst*, I want *the top N populated countries in the world* so that *I can focus on largest global countries.*
 
-As a Data Analyst, I want the top N populated countries in a continent so that I can focus on major countries continent-wide.
+As a *Data Analyst*, I want *the top N populated countries in a continent* so that *I can focus on major countries continent-wide.*
 
-As a Data Analyst, I want the top N populated countries in a region so that I can study most populated countries in that region.
+As a *Data Analyst*, I want *the top N populated countries in a region* so that *I can study most populated countries in that region.*
 
 ### Scope
 
