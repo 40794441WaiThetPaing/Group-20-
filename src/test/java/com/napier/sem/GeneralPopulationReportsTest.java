@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -164,6 +165,20 @@ public class GeneralPopulationReportsTest {
         long result = gpr.getCountryPopulation("Narnia");
 
         assertEquals(0L, result, "Population should be 0 when no rows are returned");
+    }
+
+    /**
+     *  Test behavior when SQL throws Exceptions
+     */
+    @Test
+    void testGetRegionPopulationSQLException() throws Exception {
+        Statement stmt = Mockito.mock(Statement.class);
+
+        Mockito.when(gpr.con.createStatement()).thenThrow(new SQLException("DB failure"));
+
+        long result = gpr.getRegionPopulation("Caribbean");
+
+        assertEquals(0L, result, "Should return 0 on SQL failure");
     }
 
 }
