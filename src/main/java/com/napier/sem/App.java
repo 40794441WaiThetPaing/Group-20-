@@ -72,13 +72,26 @@ public class App {
         long totalPopulation = reports.getTotalWorldPopulation();
         reports.printTotalWorldPopulation(totalPopulation);
 
-        // Get and print total population for North America
+        // Get and print total population for North America (continent)
         long northAmericaPop = reports.getContinentPopulation("North America");
         reports.printContinentPopulation("North America", northAmericaPop);
 
-        // Get and print total population for Caribbean
+        // Get and print total population for Caribbean (region)
         long caribbeanPop = reports.getRegionPopulation("Caribbean");
         reports.printRegionPopulation("Caribbean", caribbeanPop);
+
+        // Get and print population for United Kingdom (country)
+        long ukPop = reports.getCountryPopulation("United Kingdom");
+        reports.printCountryPopulation("United Kingdom", ukPop);
+
+        // Get and print population for California (district)
+        long californiaPop = reports.getDistrictPopulation("California");
+        reports.printDistrictPopulation("California", californiaPop);
+
+        // Get and print population for London (city)
+        long londonPop = reports.getCityPopulation("London");
+        reports.printCityPopulation("London", londonPop);
+
 
         // Disconnect from database
         a.disconnect();
