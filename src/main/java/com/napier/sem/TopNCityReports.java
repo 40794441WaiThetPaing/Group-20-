@@ -26,14 +26,15 @@ public class TopNCityReports {
             ResultSet rset = pstmt.executeQuery();
             while (rset.next()) {
                 City city = new City();
-                city.Name = rset.getString("CityName");
+                city.setName(rset.getString("CityName"));
 
                 Country country = new Country();
-                country.Name = rset.getString("CountryName");
-                city.Country = country;
+                country.setName(rset.getString("CountryName"));
+                city.setCountry(country);
 
-                city.District = rset.getString("District");
-                city.Population = rset.getInt("Population");
+                city.setDistrict(rset.getString("District"));
+                city.setPopulation(rset.getInt("Population"));
+
                 cities.add(city);
             }
         } catch (SQLException e) {
@@ -72,15 +73,61 @@ public class TopNCityReports {
     }
 
     /**
+     * Retrieves the top N most populated cities in region.
+     */
+    public ArrayList<City> getTopNCitiesInRegion(String region, int n) {
+        String query = """
+            SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
+            FROM city
+            JOIN country ON city.CountryCode = country.Code
+            WHERE country.Region = ?
+            ORDER BY city.Population DESC
+            LIMIT ?;
+            """;
+        return executeCityQuery(query, region, n);
+    }
+
+    /**
+     * Retrieves the top N most populated cities in country.
+     */
+    public ArrayList<City> getTopNCitiesInCountry(String countryName, int n) {
+        String query = """
+            SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
+            FROM city
+            JOIN country ON city.CountryCode = country.Code
+            WHERE country.Name = ?
+            ORDER BY city.Population DESC
+            LIMIT ?;
+            """;
+        return executeCityQuery(query, countryName, n);
+    }
+
+    /**
+     * Retrieves the top N most populated cities in district.
+     */
+    public ArrayList<City> getTopNCitiesInDistrict(String district, int n) {
+        String query = """
+            SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
+            FROM city
+            JOIN country ON city.CountryCode = country.Code
+            WHERE city.District = ?
+            ORDER BY city.Population DESC
+            LIMIT ?;
+            """;
+        return executeCityQuery(query, district, n);
+    }
+
+
+    /**
      * Print cities reports with city name, country, district and population in columns
      */
     public void printCityReport(ArrayList<City> cities, String title) {
         System.out.println("\n" + title);
         System.out.printf("%-30s %-30s %-30s %-12s%n", "City Name", "Country", "District", "Population");
         for (City city : cities) {
-            String countryName = (city.Country != null && city.Country.Name != null) ? city.Country.Name : "Unknown";
+            String countryName = (city.getCountry() != null && city.getCountry().getName() != null) ? city.getCountry().getName() : "Unknown";
             System.out.printf("%-30s %-30s %-30s %-12d%n",
-                    city.Name, countryName, city.District, city.Population);
+                    city.getName(), countryName, city.getDistrict(), city.getPopulation());
         }
     }
 }
