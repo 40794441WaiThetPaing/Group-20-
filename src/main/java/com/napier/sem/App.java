@@ -35,7 +35,7 @@ public class App {
                 System.out.println("Successfully connected");
                 break;
             } catch (SQLException sqle) {
-                System.out.println("Failed to connect to database attempt " +                                  Integer.toString(i));
+                System.out.println("Failed to connect to database attempt " + i);
                 System.out.println(sqle.getMessage());
             } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
@@ -49,7 +49,6 @@ public class App {
     public void disconnect() {
         if (con != null) {
             try {
-                // Close connection
                 con.close();
             } catch (Exception e) {
                 System.out.println("Error closing connection to database");
@@ -59,7 +58,6 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
-        // Create new Application
         App a = new App();
 
         // Connect to database
@@ -102,13 +100,26 @@ public class App {
         long totalPopulation = reports.getTotalWorldPopulation();
         reports.printTotalWorldPopulation(totalPopulation);
 
-        // Get and print total population for North America
+        // Get and print total population for North America (continent)
         long northAmericaPop = reports.getContinentPopulation("North America");
         reports.printContinentPopulation("North America", northAmericaPop);
 
-        // Get and print total population for Caribbean
+        // Get and print total population for Caribbean (region)
         long caribbeanPop = reports.getRegionPopulation("Caribbean");
         reports.printRegionPopulation("Caribbean", caribbeanPop);
+
+        // Get and print population for United Kingdom (country)
+        long ukPop = reports.getCountryPopulation("United Kingdom");
+        reports.printCountryPopulation("United Kingdom", ukPop);
+
+        // Get and print population for California (district)
+        long californiaPop = reports.getDistrictPopulation("California");
+        reports.printDistrictPopulation("California", californiaPop);
+
+        // Get and print population for London (city)
+        long londonPop = reports.getCityPopulation("London");
+        reports.printCityPopulation("London", londonPop);
+
 
 
         PopulationReport reportpp = new PopulationReport(a.con);

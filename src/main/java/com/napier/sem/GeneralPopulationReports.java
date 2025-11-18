@@ -89,4 +89,91 @@ public class GeneralPopulationReports {
     public void printRegionPopulation(String regionName, long population) {
         System.out.printf("%-30s %-12d\n", "Population of " + regionName + ":", population);
     }
+
+    /**
+     * Retrieves the total population of a given country.
+     */
+    public long getCountryPopulation(String countryName) {
+        long countryPopulation = 0;
+        try {
+            Statement stmt = con.createStatement();
+            String strSelect = "SELECT Population AS CountryPopulation " +
+                    "FROM country WHERE Name = '" + countryName + "';";
+            ResultSet rset = stmt.executeQuery(strSelect);
+            if (rset.next()) {
+                countryPopulation = rset.getLong("CountryPopulation");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get country population");
+        }
+        return countryPopulation;
+    }
+
+    /**
+     * Prints the total population of a given country.
+     */
+    public void printCountryPopulation(String countryName, long population) {
+        System.out.printf("%-30s %-12d\n", "Population of " + countryName + ":", population);
+    }
+
+
+
+    /**
+     * Retrieves the total population of a given district.
+     * Note: District populations come from the `city` table.
+     */
+    public long getDistrictPopulation(String districtName) {
+        long districtPopulation = 0;
+        try {
+            Statement stmt = con.createStatement();
+            String strSelect = "SELECT SUM(Population) AS DistrictPopulation " +
+                    "FROM city WHERE District = '" + districtName + "';";
+            ResultSet rset = stmt.executeQuery(strSelect);
+            if (rset.next()) {
+                districtPopulation = rset.getLong("DistrictPopulation");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get district population");
+        }
+        return districtPopulation;
+    }
+
+    /**
+     * Prints the total population of a given district.
+     */
+    public void printDistrictPopulation(String districtName, long population) {
+        System.out.printf("%-30s %-12d\n", "Population of district " + districtName + ":", population);
+    }
+
+
+
+    /**
+     * Retrieves the population of a given city.
+     */
+    public long getCityPopulation(String cityName) {
+        long cityPopulation = 0;
+        try {
+            Statement stmt = con.createStatement();
+            String strSelect = "SELECT Population AS CityPopulation " +
+                    "FROM city WHERE Name = '" + cityName + "';";
+            ResultSet rset = stmt.executeQuery(strSelect);
+            if (rset.next()) {
+                cityPopulation = rset.getLong("CityPopulation");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city population");
+        }
+        return cityPopulation;
+    }
+
+    /**
+     * Prints the population of a given city.
+     */
+    public void printCityPopulation(String cityName, long population) {
+        System.out.printf("%-30s %-12d\n", "Population of city " + cityName + ":", population);
+    }
+
 }
