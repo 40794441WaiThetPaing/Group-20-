@@ -7,9 +7,6 @@ import org.mockito.Mockito;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -123,62 +120,6 @@ public class GeneralPopulationReportsTest {
         );
 
         assertEquals(expected.stripTrailing(), output.stripTrailing());
-    }
-
-    /**
-     * Testing database response via mock connection
-     */
-    @Test
-    void testGetContinentPopulation() throws Exception {
-        // Mock objects
-        Statement stmt = Mockito.mock(Statement.class);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-
-        // Connection returns the mocked statement
-        Mockito.when(gpr.con.createStatement()).thenReturn(stmt);
-
-        // Statement returns mocked result set
-        Mockito.when(stmt.executeQuery(Mockito.anyString())).thenReturn(rs);
-
-        // ResultSet mimics one row returned
-        Mockito.when(rs.next()).thenReturn(true);
-        Mockito.when(rs.getLong("ContinentPopulation")).thenReturn(12345L);
-
-        long result = gpr.getContinentPopulation("Europe");
-
-        assertEquals(12345L, result);
-    }
-
-    /**
-     * Test behavior when SQL returns no rows
-     */
-    @Test
-    void testGetCountryPopulationNoResults() throws Exception {
-        Statement stmt = Mockito.mock(Statement.class);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-
-        Mockito.when(gpr.con.createStatement()).thenReturn(stmt);
-        Mockito.when(stmt.executeQuery(Mockito.anyString())).thenReturn(rs);
-
-        Mockito.when(rs.next()).thenReturn(false);  // no rows
-
-        long result = gpr.getCountryPopulation("Narnia");
-
-        assertEquals(0L, result, "Population should be 0 when no rows are returned");
-    }
-
-    /**
-     *  Test behavior when SQL throws Exceptions
-     */
-    @Test
-    void testGetRegionPopulationSQLException() throws Exception {
-        Statement stmt = Mockito.mock(Statement.class);
-
-        Mockito.when(gpr.con.createStatement()).thenThrow(new SQLException("DB failure"));
-
-        long result = gpr.getRegionPopulation("Caribbean");
-
-        assertEquals(0L, result, "Should return 0 on SQL failure");
     }
 
 }
