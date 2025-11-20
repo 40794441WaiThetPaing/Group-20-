@@ -22,6 +22,7 @@ jobs:
         run: |
           mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsTest test
+          mvn -Dtest=com.napier.sem.CapitalCityReportTest test
       - name: List dirs
         run: |
           cd ./target/site/jacoco
@@ -54,6 +55,7 @@ jobs:
           docker run --name employees -dp 33060:3306 database
           mvn -Dtest=com.napier.sem.GenerateCityReportsIntegrationTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsIntegrationTest test
+           mvn -Dtest=com.napier.sem.CapitalCityReportIntegrationTest test
           docker stop employees
           docker rm employees
           docker image rm database                                       
