@@ -136,16 +136,16 @@ public class App {
         reports.printCityPopulation("London", londonPop);
 
         PopulationReport reportpp = new PopulationReport(a.con);
-        // 1. Population by Country
+        /** 1. Population by Country */
         reportpp.printPopulationByCountry();
 
-        // 2. Population by Region
+        /** 2. Population by Region */
         reportpp.printPopulationByRegion();
 
-        // 3. Population by Continent
+        /** 3. Population by Continent */
         reportpp.printPopulationByContinent();
 
-        // 4. Language Report
+        /** 4. Language Report */
         reportpp.printLanguageReport();
 
 
