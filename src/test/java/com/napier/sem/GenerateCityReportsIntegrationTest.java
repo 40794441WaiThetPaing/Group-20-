@@ -29,8 +29,7 @@ public class GenerateCityReportsIntegrationTest
     // TEST 1: All cities in the world
     // -----------------------------------------------------------
     @Test
-    void testGetAllCitiesByPopulation()
-    {
+    void testGetAllCitiesByPopulation() throws Exception {
         ArrayList<City> cities = gcr.getAllCitiesByPopulation();
 
         assertNotNull(cities);
@@ -46,8 +45,7 @@ public class GenerateCityReportsIntegrationTest
     // TEST 2: Cities by Continent
     // -----------------------------------------------------------
     @Test
-    void testGetCitiesByContinent()
-    {
+    void testGetCitiesByContinent() throws Exception {
         ArrayList<City> cities = gcr.getCitiesByContinent("Asia");
 
         assertNotNull(cities);
@@ -64,8 +62,7 @@ public class GenerateCityReportsIntegrationTest
     // TEST 3: Cities by Region
     // -----------------------------------------------------------
     @Test
-    void testGetCitiesByRegion()
-    {
+    void testGetCitiesByRegion() throws Exception {
         ArrayList<City> cities = gcr.getCitiesByRegion("Western Europe");
 
         assertNotNull(cities);
@@ -82,8 +79,7 @@ public class GenerateCityReportsIntegrationTest
     // TEST 4: Cities by Country
     // -----------------------------------------------------------
     @Test
-    void testGetCitiesByCountry()
-    {
+    void testGetCitiesByCountry() throws Exception {
         ArrayList<City> cities = gcr.getCitiesByCountry("Japan");
 
         assertNotNull(cities);
@@ -99,8 +95,7 @@ public class GenerateCityReportsIntegrationTest
     // TEST 5: Cities by District
     // -----------------------------------------------------------
     @Test
-    void testGetCitiesByDistrict()
-    {
+    void testGetCitiesByDistrict() throws Exception {
         ArrayList<City> cities = gcr.getCitiesByDistrict("England");
 
         assertNotNull(cities);
@@ -111,5 +106,6 @@ public class GenerateCityReportsIntegrationTest
             assertEquals("England", c.getDistrict());
         }
     }
+
 }
 
