@@ -8,31 +8,50 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@link GenerateCityReports} class.
+ * These tests verify printing behaviour and object handling
+ * without requiring a real database connection.
+ */
 public class GenerateCityReportsTest {
 
+    /**
+     * Instance of the class being tested.
+     * Uses a mocked database connection.
+     */
     private static GenerateCityReports gcr;
 
+    /**
+     * Initialises the test suite by creating a mock Connection
+     * and passing it into a new {@link GenerateCityReports} instance.
+     */
     @BeforeAll
     static void init() {
-        // Mock connection because we are NOT testing database
         Connection mockCon = Mockito.mock(Connection.class);
         gcr = new GenerateCityReports(mockCon);
     }
 
-    // 1. Null input
+    /**
+     * Ensures that passing {@code null} into printCityReport()
+     * does not throw an exception.
+     */
     @Test
     void testPrintCityReport_Null() {
         assertDoesNotThrow(() -> gcr.printCityReport(null));
     }
 
-    // 2. Empty list
+    /**
+     * Ensures an empty list of cities does not cause a failure.
+     */
     @Test
     void testPrintCityReport_EmptyList() {
         ArrayList<City> cities = new ArrayList<>();
         assertDoesNotThrow(() -> gcr.printCityReport(cities));
     }
 
-    // 3. List contains null element
+    /**
+     * Ensures that lists containing null elements are ignored safely.
+     */
     @Test
     void testPrintCityReport_ListContainsNull() {
         ArrayList<City> cities = new ArrayList<>();
@@ -40,7 +59,9 @@ public class GenerateCityReportsTest {
         assertDoesNotThrow(() -> gcr.printCityReport(cities));
     }
 
-    // 4. Valid city object
+    /**
+     * Ensures valid City objects can be printed without errors.
+     */
     @Test
     void testPrintCityReport_ValidCity() {
         ArrayList<City> cities = new ArrayList<>();
@@ -58,7 +79,13 @@ public class GenerateCityReportsTest {
         assertDoesNotThrow(() -> gcr.printCityReport(cities));
     }
 
+    // ---------------------------
+    // Country Getter/Setter Tests
+    // ---------------------------
 
+    /**
+     * Tests Country.setCode() and getCode().
+     */
     @Test
     void testSetAndGetCode() {
         Country c = new Country();
@@ -66,6 +93,9 @@ public class GenerateCityReportsTest {
         assertEquals(123, c.getCode());
     }
 
+    /**
+     * Tests Country.setName() and getName().
+     */
     @Test
     void testSetAndGetName() {
         Country c = new Country();
@@ -73,6 +103,9 @@ public class GenerateCityReportsTest {
         assertEquals("Japan", c.getName());
     }
 
+    /**
+     * Tests Country.setContinent() and getContinent().
+     */
     @Test
     void testSetAndGetContinent() {
         Country c = new Country();
@@ -80,6 +113,9 @@ public class GenerateCityReportsTest {
         assertEquals("Asia", c.getContinent());
     }
 
+    /**
+     * Tests Country.setRegion() and getRegion().
+     */
     @Test
     void testSetAndGetRegion() {
         Country c = new Country();
@@ -87,6 +123,9 @@ public class GenerateCityReportsTest {
         assertEquals("Eastern Asia", c.getRegion());
     }
 
+    /**
+     * Tests Country.setPopulation() and getPopulation().
+     */
     @Test
     void testSetAndGetPopulation() {
         Country c = new Country();
@@ -94,6 +133,9 @@ public class GenerateCityReportsTest {
         assertEquals(125000000, c.getPopulation());
     }
 
+    /**
+     * Tests Country.setCapital() and getCapital().
+     */
     @Test
     void testSetAndGetCapital() {
         Country c = new Country();
@@ -101,12 +143,14 @@ public class GenerateCityReportsTest {
         assertEquals(1234, c.getCapital());
     }
 
+    /**
+     * Tests City.setId() and getId().
+     */
     @Test
     void testSetAndGetId() {
-        City city   = new City();
+        City city = new City();
         city.setId(123);
         assertEquals(123, city.getId());
     }
+
 }
-
-

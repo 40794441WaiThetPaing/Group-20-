@@ -8,104 +8,116 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Integration tests for the {@link GenerateCityReports} class.
+ * <p>
+ * These tests run against a live MySQL database using the App
+ * connection method. The purpose is to verify that SQL queries
+ * correctly retrieve real data from the World database.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class GenerateCityReportsIntegrationTest
-{
+public class GenerateCityReportsIntegrationTest {
+
+    /**
+     * Application instance used to establish a real database connection.
+     */
     static App app;
+
+    /**
+     * Report generator used to run live SQL queries.
+     */
     static GenerateCityReports gcr;
 
+    /**
+     * Establishes a connection to the running database container and
+     * initialises the GenerateCityReports instance. This method runs
+     * once before all integration tests.
+     */
     @BeforeAll
-    void init()
-    {
-        // Create App and connect to database
+    void init() {
         app = new App();
-        app.connect("localhost:33060", 30000);   // Uses your existing connect() → db:3306 inside docker
-
-        // Create report generator with live DB connection
+        app.connect("localhost:33060", 30000);
         gcr = new GenerateCityReports(app.con);
     }
 
-    // -----------------------------------------------------------
-    // TEST 1: All cities in the world
-    // -----------------------------------------------------------
+    /**
+     * Tests that all cities in the world can be retrieved and sorted
+     * by population. Ensures the list is non-empty and that the top
+     * entry contains valid data.
+     */
     @Test
     void testGetAllCitiesByPopulation() throws Exception {
         ArrayList<City> cities = gcr.getAllCitiesByPopulation();
 
         assertNotNull(cities);
-        assertTrue(cities.size() > 0);
+        assertFalse(cities.isEmpty());
 
-        // Check first city is valid
         City top = cities.get(0);
         assertNotNull(top.getName());
         assertTrue(top.getPopulation() > 0);
     }
 
-    // -----------------------------------------------------------
-    // TEST 2: Cities by Continent
-    // -----------------------------------------------------------
+    /**
+     * Tests that cities can be retrieved by continent and verifies that
+     * all returned cities belong to the specified continent.
+     */
     @Test
     void testGetCitiesByContinent() throws Exception {
         ArrayList<City> cities = gcr.getCitiesByContinent("Asia");
 
         assertNotNull(cities);
-        assertTrue(cities.size() > 0);
+        assertFalse(cities.isEmpty());
 
-        // Check all results are actually in Asia
-        for (City c : cities)
-        {
+        for (City c : cities) {
             assertEquals("Asia", c.getCountry().getContinent());
         }
     }
 
-    // -----------------------------------------------------------
-    // TEST 3: Cities by Region
-    // -----------------------------------------------------------
+    /**
+     * Tests that cities can be retrieved by region and verifies that all
+     * returned cities belong to the specified region.
+     */
     @Test
     void testGetCitiesByRegion() throws Exception {
         ArrayList<City> cities = gcr.getCitiesByRegion("Western Europe");
 
         assertNotNull(cities);
-        assertTrue(cities.size() > 0);
+        assertFalse(cities.isEmpty());
 
-        // Check region is correct
-        for (City c : cities)
-        {
+        for (City c : cities) {
             assertEquals("Western Europe", c.getCountry().getRegion());
         }
     }
 
-    // -----------------------------------------------------------
-    // TEST 4: Cities by Country
-    // -----------------------------------------------------------
+    /**
+     * Tests that cities can be retrieved by country name and verifies
+     * that all returned cities match the specified country.
+     */
     @Test
     void testGetCitiesByCountry() throws Exception {
         ArrayList<City> cities = gcr.getCitiesByCountry("Japan");
 
         assertNotNull(cities);
-        assertTrue(cities.size() > 0);
+        assertFalse(cities.isEmpty());
 
-        for (City c : cities)
-        {
+        for (City c : cities) {
             assertEquals("Japan", c.getCountry().getName());
         }
     }
 
-    // -----------------------------------------------------------
-    // TEST 5: Cities by District
-    // -----------------------------------------------------------
+    /**
+     * Tests that cities can be retrieved by district and verifies that
+     * all results belong to the specified district.
+     */
     @Test
     void testGetCitiesByDistrict() throws Exception {
         ArrayList<City> cities = gcr.getCitiesByDistrict("England");
 
         assertNotNull(cities);
-        assertTrue(cities.size() > 0);
+        assertFalse(cities.isEmpty());
 
-        for (City c : cities)
-        {
+        for (City c : cities) {
             assertEquals("England", c.getDistrict());
         }
     }
-
 }
-
