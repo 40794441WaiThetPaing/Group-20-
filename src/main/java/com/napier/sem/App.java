@@ -5,9 +5,6 @@ import java.util.ArrayList;
 
 public class App {
 
-    /**
-     * Connection to MySQL database.
-     */
     Connection con = null;
 
     /**
@@ -35,7 +32,7 @@ public class App {
                 System.out.println("Successfully connected");
                 break;
             } catch (SQLException sqle) {
-                System.out.println("Failed to connect to database attempt " +                                  Integer.toString(i));
+                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
                 System.out.println(sqle.getMessage());
             } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
@@ -63,9 +60,9 @@ public class App {
         App a = new App();
 
         // Connect to database
-        if(args.length < 1){
+        if (args.length < 1) {
             a.connect("localhost:33060", 30000);
-        }else{
+        } else {
             a.connect(args[0], Integer.parseInt(args[1]));
         }
 
@@ -90,10 +87,6 @@ public class App {
         // 6. Top N countries in a region
         cr.printTopCountriesInRegion("Southern Europe", 10);
 
-
-        /**
-         * user-defined number of top cities to display
-         */
 
         // Create instance of report generator
         GeneralPopulationReports reports = new GeneralPopulationReports(a.con);
@@ -203,7 +196,7 @@ public class App {
         report.printCityReport(districtCities, "Top " + n + " Populated Cities in Tokyo-to");
 
 
-    // Generate City Report
+        // Generate City Report
         GenerateCityReports gcr = new GenerateCityReports(a.con);
 
         //Example: All cities in the world
