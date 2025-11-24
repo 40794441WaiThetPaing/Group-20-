@@ -6,6 +6,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,7 +37,7 @@ public class TopNCityReportsIntegrationTest {
     }
 
     @Test
-    void testGetTopNCitiesInWorld() {
+    void testGetTopNCitiesInWorld() throws SQLException {
         ArrayList<City> cities = reports.getTopNCitiesInWorld(5);
         assertNotNull(cities);
         assertTrue(cities.size() <= 5);
@@ -44,7 +45,7 @@ public class TopNCityReportsIntegrationTest {
     }
 
     @Test
-    void testGetTopNCitiesInContinent() {
+    void testGetTopNCitiesInContinent() throws SQLException {
         ArrayList<City> cities = reports.getTopNCitiesInContinent("Asia", 5);
         assertNotNull(cities);
         assertTrue(cities.size() <= 5);
@@ -52,7 +53,7 @@ public class TopNCityReportsIntegrationTest {
     }
 
     @Test
-    void testGetTopNCitiesInRegion() {
+    void testGetTopNCitiesInRegion() throws SQLException {
         ArrayList<City> cities = reports.getTopNCitiesInRegion("Eastern Asia", 5);
         assertNotNull(cities);
         assertTrue(cities.size() <= 5);
@@ -60,7 +61,7 @@ public class TopNCityReportsIntegrationTest {
     }
 
     @Test
-    void testGetTopNCitiesInCountry() {
+    void testGetTopNCitiesInCountry() throws SQLException {
         ArrayList<City> cities = reports.getTopNCitiesInCountry("Japan", 5);
         assertNotNull(cities);
         assertTrue(cities.size() <= 5);
@@ -68,7 +69,7 @@ public class TopNCityReportsIntegrationTest {
     }
 
     @Test
-    void testGetTopNCitiesInDistrict() {
+    void testGetTopNCitiesInDistrict() throws SQLException {
         ArrayList<City> cities = reports.getTopNCitiesInDistrict("Tokyo-To", 5);
         assertNotNull(cities);
         assertTrue(cities.size() <= 5);

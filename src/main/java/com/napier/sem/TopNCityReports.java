@@ -16,9 +16,9 @@ public class TopNCityReports {
     }
 
     // Generic query executor
-    private ArrayList<City> executeCityQuery(String query, Object... params) {
+    private ArrayList<City> executeCityQuery(String query, Object... params) throws SQLException {
         ArrayList<City> cities = new ArrayList<>();
-        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+         PreparedStatement pstmt = con.prepareStatement(query) ;
             for (int i = 0; i < params.length; i++) {
                 pstmt.setObject(i + 1, params[i]);
             }
@@ -37,16 +37,14 @@ public class TopNCityReports {
 
                 cities.add(city);
             }
-        } catch (SQLException e) {
-            System.out.println("SQL Error: " + e.getMessage());
-        }
+
         return cities;
     }
 
     /**
      * Retrieves the top N most populated cities in the world.
      */
-    public ArrayList<City> getTopNCitiesInWorld(int n) {
+    public ArrayList<City> getTopNCitiesInWorld(int n) throws SQLException {
         String query = """
                 SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
                 FROM city
@@ -60,7 +58,7 @@ public class TopNCityReports {
     /**
      * Retrieves the top N most populated cities in continent.
      */
-    public ArrayList<City> getTopNCitiesInContinent(String continent, int n) {
+    public ArrayList<City> getTopNCitiesInContinent(String continent, int n) throws SQLException {
         String query = """
                 SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
                 FROM city
@@ -75,7 +73,7 @@ public class TopNCityReports {
     /**
      * Retrieves the top N most populated cities in region.
      */
-    public ArrayList<City> getTopNCitiesInRegion(String region, int n) {
+    public ArrayList<City> getTopNCitiesInRegion(String region, int n) throws SQLException {
         String query = """
             SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
             FROM city
@@ -90,7 +88,7 @@ public class TopNCityReports {
     /**
      * Retrieves the top N most populated cities in country.
      */
-    public ArrayList<City> getTopNCitiesInCountry(String countryName, int n) {
+    public ArrayList<City> getTopNCitiesInCountry(String countryName, int n) throws SQLException {
         String query = """
             SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
             FROM city
@@ -105,7 +103,7 @@ public class TopNCityReports {
     /**
      * Retrieves the top N most populated cities in district.
      */
-    public ArrayList<City> getTopNCitiesInDistrict(String district, int n) {
+    public ArrayList<City> getTopNCitiesInDistrict(String district, int n) throws SQLException {
         String query = """
             SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
             FROM city
