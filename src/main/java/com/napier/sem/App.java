@@ -58,7 +58,7 @@ public class App {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
         App a = new App();
