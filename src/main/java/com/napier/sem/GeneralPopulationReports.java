@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class GeneralPopulationReports {
 
-    private final Connection con;
+    final Connection con;
 
     public GeneralPopulationReports(Connection con) {
         this.con = con;

@@ -35,7 +35,7 @@ public class App {
                 System.out.println("Successfully connected");
                 break;
             } catch (SQLException sqle) {
-                System.out.println("Failed to connect to database attempt " + i);
+                System.out.println("Failed to connect to database attempt " +                                  Integer.toString(i));
                 System.out.println(sqle.getMessage());
             } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
@@ -49,6 +49,7 @@ public class App {
     public void disconnect() {
         if (con != null) {
             try {
+                // Close connection
                 con.close();
             } catch (Exception e) {
                 System.out.println("Error closing connection to database");
@@ -58,6 +59,7 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(System.getProperty("java.class.path"));
+        // Create new Application
         App a = new App();
 
         // Connect to database
@@ -119,8 +121,6 @@ public class App {
         // Get and print population for London (city)
         long londonPop = reports.getCityPopulation("London");
         reports.printCityPopulation("London", londonPop);
-
-
 
         PopulationReport reportpp = new PopulationReport(a.con);
         // 1. Population by Country
@@ -225,6 +225,7 @@ public class App {
         // Example: Cities by district
         ArrayList<City> englandCities = gcr.getCitiesByDistrict("England");
         gcr.printCityReport(englandCities);
+
 
         // Disconnect from database
         a.disconnect();
