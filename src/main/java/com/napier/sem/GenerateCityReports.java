@@ -1,9 +1,6 @@
 package com.napier.sem;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class GenerateCityReports {
@@ -14,7 +11,7 @@ public class GenerateCityReports {
     }
 
     // 1. All cities in world sorted by population
-    public ArrayList<City> getAllCitiesByPopulation() {
+    public ArrayList<City> getAllCitiesByPopulation() throws Exception {
         String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code " +
                 "ORDER BY city.Population DESC;";
@@ -23,7 +20,7 @@ public class GenerateCityReports {
     }
 
     // 2. All cities in a continent sorted by population
-    public ArrayList<City> getCitiesByContinent(String continent) {
+    public ArrayList<City> getCitiesByContinent(String continent) throws Exception {
         String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code WHERE c.Continent = ? " +
                 "ORDER BY city.Population DESC;";
@@ -32,7 +29,7 @@ public class GenerateCityReports {
     }
 
     // 3. All cities in a region sorted by population
-    public ArrayList<City> getCitiesByRegion(String region) {
+    public ArrayList<City> getCitiesByRegion(String region) throws Exception {
         String sql = "SELECT city.Name AS CityName, c.Name AS CountryName,c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code WHERE c.Region = ? " +
                 "ORDER BY city.Population DESC;";
@@ -40,7 +37,7 @@ public class GenerateCityReports {
     }
 
     // 4. All cities in country sorted by population
-    public ArrayList<City> getCitiesByCountry(String country) {
+    public ArrayList<City> getCitiesByCountry(String country) throws Exception {
         String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code WHERE c.Name = ? " +
                 "ORDER BY city.Population DESC;";
@@ -48,7 +45,7 @@ public class GenerateCityReports {
     }
 
     // 5. All cities in a district sorted by population
-    public ArrayList<City> getCitiesByDistrict(String district) {
+    public ArrayList<City> getCitiesByDistrict(String district) throws Exception {
         String sql = "SELECT city.Name AS CityName, c.Name AS CountryName, c.Continent, c.Region, city.District, city.Population " +
                 "FROM city JOIN world.country c ON city.CountryCode = c.Code WHERE city.District = ? " +
                 "ORDER BY city.Population DESC;";
@@ -57,33 +54,27 @@ public class GenerateCityReports {
 
 
     // Helper to execute queries without params, no limit
-    private ArrayList<City> executeCityQuery(String sql) {
+    private ArrayList<City> executeCityQuery(String sql) throws Exception {
         ArrayList<City> cities = new ArrayList<>();
-        try (Statement stmt = con.createStatement()) {
+        Statement stmt = con.createStatement();
             ResultSet rset = stmt.executeQuery(sql);
             while (rset.next()) {
                 cities.add(createCityFromResultSet(rset));
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get city details");
-        }
+
         return cities;
     }
 
     // Helper to execute queries with one parameter, no limit
-    private ArrayList<City> executeCityQueryWithParam(String sql, String param) {
+    private ArrayList<City> executeCityQueryWithParam(String sql, String param) throws Exception {
         ArrayList<City> cities = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+        PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, param);
             ResultSet rset = stmt.executeQuery();
             while (rset.next()) {
                 cities.add(createCityFromResultSet(rset));
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get city details");
-        }
+
         return cities;
     }
 
