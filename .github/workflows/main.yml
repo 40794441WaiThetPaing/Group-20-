@@ -1,8 +1,6 @@
 name: Build and Test - Population Reporting System
 on:
   push:
-      branches:
-        - master
 
 permissions:
   contents: write
