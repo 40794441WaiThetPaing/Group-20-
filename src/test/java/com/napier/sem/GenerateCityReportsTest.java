@@ -100,6 +100,13 @@ public class GenerateCityReportsTest {
         c.setCapital(1234);
         assertEquals(1234, c.getCapital());
     }
+
+    @Test
+    void testSetAndGetId() {
+        City city   = new City();
+        city.setId(123);
+        assertEquals(123, city.getId());
+    }
 }
 
 
