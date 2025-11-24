@@ -3,7 +3,6 @@ package com.napier.sem;
 import java.sql.*;
 import java.util.ArrayList;
 
-
 public class App {
 
     /**
