@@ -23,7 +23,7 @@ jobs:
           mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsTest test
           mvn -Dtest=com.napier.sem.GeneralPopulationReportsTest test
-  
+          mvn -Dtest=com.napier.sem.PopulationReportTest test
           mvn -Dtest=com.napier.sem.CountryReportTest test
 
           mvn -Dtest=com.napier.sem.CapitalCityReportTest test
@@ -38,6 +38,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
   #       directory: ./target/site/jacoco
   #          verbose: true # optional (default = false)
+
 
 
   IntegrationTests:
@@ -59,6 +60,7 @@ jobs:
           docker run --name employees -dp 33060:3306 database
           mvn -Dtest=com.napier.sem.GenerateCityReportsIntegrationTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsIntegrationTest test
+          mvn -Dtest=com.napier.sem.PopulationReportsIntegrationTest test
           mvn -Dtest=com.napier.sem.GeneralPopulationReportsIntegrationTest test
           mvn -Dtest=com.napier.sem.CountryReportIntegrationTest test
            mvn -Dtest=com.napier.sem.CapitalCityReportIntegrationTest test
