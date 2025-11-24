@@ -3,15 +3,23 @@ package com.napier.sem;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Main application class responsible for connecting to the database,
+ * running reports, and controlling the program workflow.
+ */
 public class App {
-
     /**
-     * Connection to MySQL database.
+     * Active MySQL database connection.
      */
     Connection con = null;
 
     /**
-     * Connect to the MySQL database.
+     * Connects to a MySQL database using the provided location and delay time.
+     * Attempts a maximum of 10 retries before giving up.
+     *
+     * @param location the host and port of the MySQL server
+     *                 (e.g. "localhost:33060" or "db:3306")
+     * @param delay    time to wait between retries (milliseconds)
      */
     public void connect(String location, int delay) {
         try {
@@ -57,6 +65,15 @@ public class App {
         }
     }
 
+    /**
+     * Application entry point. Establishes a database connection,
+     * generates city reports, and then disconnects.
+     *
+     * @param args optional command-line arguments:
+     *             args[0] = database location
+     *             args[1] = connection delay
+     * @throws Exception if a report query fails
+     */
     public static void main(String[] args) throws Exception {
         System.out.println(System.getProperty("java.class.path"));
         // Create new Application
@@ -137,16 +154,16 @@ public class App {
         reports.printCityPopulation("London", londonPop);
 
         PopulationReport reportpp = new PopulationReport(a.con);
-        // 1. Population by Country
+        /** 1. Population by Country */
         reportpp.printPopulationByCountry();
 
-        // 2. Population by Region
+        /** 2. Population by Region */
         reportpp.printPopulationByRegion();
 
-        // 3. Population by Continent
+        /** 3. Population by Continent */
         reportpp.printPopulationByContinent();
 
-        // 4. Language Report
+        /** 4. Language Report */
         reportpp.printLanguageReport();
 
 
@@ -220,23 +237,21 @@ public class App {
         // Generate City Report
         GenerateCityReports gcr = new GenerateCityReports(a.con);
 
-        //Example: All cities in the world
         ArrayList<City> allcities = gcr.getAllCitiesByPopulation();
         gcr.printCityReport(allcities);
 
-        //Example: Cities by continent
+
         ArrayList<City> asianCities = gcr.getCitiesByContinent("Asia");
         gcr.printCityReport(asianCities);
 
-        // Example: Cities by region
+
         ArrayList<City> westernEuropeCities = gcr.getCitiesByRegion("Western Europe");
         gcr.printCityReport(westernEuropeCities);
 
-        // Example: Cities by country
+
         ArrayList<City> japaneseCities = gcr.getCitiesByCountry("Japan");
         gcr.printCityReport(japaneseCities);
 
-        // Example: Cities by district
         ArrayList<City> englandCities = gcr.getCitiesByDistrict("England");
         gcr.printCityReport(englandCities);
 
