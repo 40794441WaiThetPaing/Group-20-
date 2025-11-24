@@ -12,6 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit test suite for GeneralPopulationReports, covering both successful
+ * printing of population data and error-handling behavior when database
+ * operations fail.
+ */
+
 public class GeneralPopulationReportsTest {
 
     private static GeneralPopulationReports gpr;
@@ -193,6 +199,5 @@ public class GeneralPopulationReportsTest {
         long pop = gpr.getCityPopulation("London");
         assertEquals(0, pop);  // because default is zero
     }
-
-
+    
 }
