@@ -19,14 +19,14 @@ public class PopulationReportTest {
     }
 
 
-    // Check if the method runs without throwing errors
+    /** Check if the method runs without throwing errors */
     @Test
     void testPrintPopulationByContinent_RunWithoutCrash() {
         assertDoesNotThrow(() -> populationReport.printPopulationByContinent());
     }
 
 
-    // Check if the method still runs even if the connection is NULL
+    /** Check if the method still runs even if the connection is NULL */
     @Test
     void testPrintPopulationByContinent_NullConnection() {
         PopulationReport pr = new PopulationReport(null);
@@ -34,7 +34,7 @@ public class PopulationReportTest {
     }
 
 
-    // Check if the method runs and prints without error
+    /** Check if the method runs and prints without error */
     @Test
     void testPrintLanguageReport_RunWithoutCrash() {
         assertDoesNotThrow(() -> populationReport.printLanguageReport());
@@ -42,7 +42,7 @@ public class PopulationReportTest {
     }
 
 
-    // Check if the method handles NULL connection safely
+    /**  Check if the method handles NULL connection safely */
     @Test
     void testPrintLanguageReport_NullConnection() {
         PopulationReport pr = new PopulationReport(null);

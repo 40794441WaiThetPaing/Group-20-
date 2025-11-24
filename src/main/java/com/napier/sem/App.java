@@ -5,9 +5,6 @@ import java.util.ArrayList;
 
 public class App {
 
-    /**
-     * Connection to MySQL database.
-     */
     Connection con = null;
 
     /**
@@ -90,10 +87,6 @@ public class App {
         // 6. Top N countries in a region
         cr.printTopCountriesInRegion("Southern Europe", 10);
 
-
-        /**
-         * user-defined number of top cities to display
-         */
 
         // Create instance of report generator
         GeneralPopulationReports reports = new GeneralPopulationReports(a.con);

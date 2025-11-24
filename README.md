@@ -14,8 +14,6 @@ Testing for CI
 # Develop
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/40794441WaiThetPaing/Group-20-/main.yml?branch=develop)
 
-
-# Develop
 [![codecov](https://codecov.io/gh/40794441WaiThetPaing/Group-20-/graph/badge.svg?token=LSE4XVG1FT)](https://codecov.io/gh/40794441WaiThetPaing/Group-20-)
 
 ![Codecov (with branch)](https://img.shields.io/codecov/c/github/40794441WaiThetPaing/Group-20-/develop)
