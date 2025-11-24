@@ -23,7 +23,7 @@ jobs:
           mvn -Dtest=com.napier.sem.GenerateCityReportsTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsTest test
           mvn -Dtest=com.napier.sem.GeneralPopulationReportsTest test
-  
+          mvn -Dtest=com.napier.sem.PopulationReportTest test
           mvn -Dtest=com.napier.sem.CountryReportTest test
 
           mvn -Dtest=com.napier.sem.CapitalCityReportTest test
@@ -38,7 +38,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
   #       directory: ./target/site/jacoco
   #          verbose: true # optional (default = false)
-          mvn -Dtest=com.napier.sem.PopulationReportTest test
+
 
 
   IntegrationTests:
