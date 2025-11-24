@@ -24,7 +24,6 @@ public class PopulationReportsIntegrationTest {
         populationReport = new PopulationReport(app.con);
     }
 
-    // Optional: direct JDBC setup
     void setup() throws Exception {
         String jdbcUrl = "jdbc:mysql://localhost:33060/world?allowPublicKeyRetrieval=true&useSSL=false";
         String username = "root";
@@ -36,14 +35,15 @@ public class PopulationReportsIntegrationTest {
         populationReport = new PopulationReport(con);
     }
 
-    // ============================================================
-    // 1️⃣ Population by Country
-    // ============================================================
+     /**
+      * Testing for Population by Country
+      */
+
     @Test
     void testPrintPopulationByCountry() {
         assertDoesNotThrow(() -> populationReport.printPopulationByCountry());
 
-        // Optional: check query returns data
+        /** check query returns data */
         try {
             Statement stmt = app.con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM country LIMIT 1");
@@ -53,9 +53,10 @@ public class PopulationReportsIntegrationTest {
         }
     }
 
-    // ============================================================
-    // 2️⃣ Population by Region
-    // ============================================================
+    /**
+     *  Testing for Population by Region
+     */
+
     @Test
     void testPrintPopulationByRegion() {
         assertDoesNotThrow(() -> populationReport.printPopulationByRegion());
@@ -69,9 +70,10 @@ public class PopulationReportsIntegrationTest {
         }
     }
 
-    // ============================================================
-    // 3️⃣ Population by Continent
-    // ============================================================
+    /**
+     * Testing for Population by Continent
+     */
+
     @Test
     void testPrintPopulationByContinent() {
         assertDoesNotThrow(() -> populationReport.printPopulationByContinent());
@@ -85,9 +87,10 @@ public class PopulationReportsIntegrationTest {
         }
     }
 
-    // ============================================================
-    // 4️⃣ Language Report
-    // ============================================================
+    /**
+     * Testing for Language Report
+     */
+
     @Test
     void testPrintLanguageReport() {
         assertDoesNotThrow(() -> populationReport.printLanguageReport());

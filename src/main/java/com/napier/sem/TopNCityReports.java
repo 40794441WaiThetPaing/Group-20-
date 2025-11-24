@@ -3,40 +3,42 @@ package com.napier.sem;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * This class handles fetching and printing reports of the top N most populated cities
+ * from the database.
+ */
 public class TopNCityReports {
+    private Connection con;
 
     /**
      * Database connection used to execute queries
      */
-    private Connection con;
-
-    // Constructor
     public TopNCityReports(Connection con) {
         this.con = con;
     }
 
-    // Generic query executor
+
     private ArrayList<City> executeCityQuery(String query, Object... params) throws SQLException {
         ArrayList<City> cities = new ArrayList<>();
-         PreparedStatement pstmt = con.prepareStatement(query) ;
-            for (int i = 0; i < params.length; i++) {
-                pstmt.setObject(i + 1, params[i]);
-            }
+        PreparedStatement pstmt = con.prepareStatement(query);
+        for (int i = 0; i < params.length; i++) {
+            pstmt.setObject(i + 1, params[i]);
+        }
 
-            ResultSet rset = pstmt.executeQuery();
-            while (rset.next()) {
-                City city = new City();
-                city.setName(rset.getString("CityName"));
+        ResultSet rset = pstmt.executeQuery();
+        while (rset.next()) {
+            City city = new City();
+            city.setName(rset.getString("CityName"));
 
-                Country country = new Country();
-                country.setName(rset.getString("CountryName"));
-                city.setCountry(country);
+            Country country = new Country();
+            country.setName(rset.getString("CountryName"));
+            city.setCountry(country);
 
-                city.setDistrict(rset.getString("District"));
-                city.setPopulation(rset.getInt("Population"));
+            city.setDistrict(rset.getString("District"));
+            city.setPopulation(rset.getInt("Population"));
 
-                cities.add(city);
-            }
+            cities.add(city);
+        }
 
         return cities;
     }
@@ -75,13 +77,13 @@ public class TopNCityReports {
      */
     public ArrayList<City> getTopNCitiesInRegion(String region, int n) throws SQLException {
         String query = """
-            SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
-            FROM city
-            JOIN country ON city.CountryCode = country.Code
-            WHERE country.Region = ?
-            ORDER BY city.Population DESC
-            LIMIT ?;
-            """;
+                SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
+                FROM city
+                JOIN country ON city.CountryCode = country.Code
+                WHERE country.Region = ?
+                ORDER BY city.Population DESC
+                LIMIT ?;
+                """;
         return executeCityQuery(query, region, n);
     }
 
@@ -90,13 +92,13 @@ public class TopNCityReports {
      */
     public ArrayList<City> getTopNCitiesInCountry(String countryName, int n) throws SQLException {
         String query = """
-            SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
-            FROM city
-            JOIN country ON city.CountryCode = country.Code
-            WHERE country.Name = ?
-            ORDER BY city.Population DESC
-            LIMIT ?;
-            """;
+                SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
+                FROM city
+                JOIN country ON city.CountryCode = country.Code
+                WHERE country.Name = ?
+                ORDER BY city.Population DESC
+                LIMIT ?;
+                """;
         return executeCityQuery(query, countryName, n);
     }
 
@@ -105,13 +107,13 @@ public class TopNCityReports {
      */
     public ArrayList<City> getTopNCitiesInDistrict(String district, int n) throws SQLException {
         String query = """
-            SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
-            FROM city
-            JOIN country ON city.CountryCode = country.Code
-            WHERE city.District = ?
-            ORDER BY city.Population DESC
-            LIMIT ?;
-            """;
+                SELECT city.Name AS CityName, country.Name AS CountryName, city.District, city.Population
+                FROM city
+                JOIN country ON city.CountryCode = country.Code
+                WHERE city.District = ?
+                ORDER BY city.Population DESC
+                LIMIT ?;
+                """;
         return executeCityQuery(query, district, n);
     }
 
