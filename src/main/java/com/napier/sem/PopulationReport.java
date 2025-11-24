@@ -2,6 +2,11 @@ package com.napier.sem;
 
 import java.sql.*;
 
+/**
+ * This class show the difference between urban and non urban population that are categorize by country, region and continent
+ * it also includes the population that is categorize by language they speak.
+ */
+
 public class PopulationReport {
 
     private final Connection con;
@@ -11,7 +16,7 @@ public class PopulationReport {
     }
 
     /**
-     * 1️⃣ Population by Country
+     * 1️Population by Country
      */
     public void printPopulationByCountry() {
         System.out.println("========================================================");
@@ -50,7 +55,7 @@ public class PopulationReport {
     }
 
     /**
-     * 2️⃣ Population by Region
+     *  Population by Region
      */
     public void printPopulationByRegion() {
         System.out.println("========================================================");
@@ -89,7 +94,7 @@ public class PopulationReport {
     }
 
     /**
-     * 3️⃣ Population by Continent
+     *  Population by Continent
      */
     public void printPopulationByContinent() {
         System.out.println("========================================================");
@@ -128,7 +133,7 @@ public class PopulationReport {
     }
 
     /**
-     * 4️⃣ Language Report — Chinese, English, Hindi, Spanish, Arabic
+     *  Language Report — Chinese, English, Hindi, Spanish, Arabic
      */
     public void printLanguageReport() {
         System.out.println("========================================================");
