@@ -4,6 +4,11 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Integration tests for GeneralPopulationReports, verifying real database
+ * queries return valid population data for various geographic levels.
+ */
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GeneralPopulationReportsIntegrationTest {
 
