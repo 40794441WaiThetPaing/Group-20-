@@ -108,30 +108,48 @@ public class App {
         cr.printTopCountriesInRegion("Southern Europe", 10);
 
 
-        // Create instance of report generator
+        /**
+         * user-defined number of top cities to display
+         */
+
+        /**
+         * General Population Reports
+         */
         GeneralPopulationReports reports = new GeneralPopulationReports(a.con);
 
-        // Get and print total world population
+        /**
+         * Get and print total world population
+         */
         long totalPopulation = reports.getTotalWorldPopulation();
         reports.printTotalWorldPopulation(totalPopulation);
 
-        // Get and print total population for North America (continent)
+        /**
+         * Get and print total population for North America (continent)
+         */
         long northAmericaPop = reports.getContinentPopulation("North America");
         reports.printContinentPopulation("North America", northAmericaPop);
 
-        // Get and print total population for Caribbean (region)
+        /**
+         * Get and print total population for Caribbean (region)
+         */
         long caribbeanPop = reports.getRegionPopulation("Caribbean");
         reports.printRegionPopulation("Caribbean", caribbeanPop);
 
-        // Get and print population for United Kingdom (country)
+        /**
+         * Get and print population for United Kingdom (country)
+         */
         long ukPop = reports.getCountryPopulation("United Kingdom");
         reports.printCountryPopulation("United Kingdom", ukPop);
 
-        // Get and print population for California (district)
+        /**
+         * Get and print population for California (district)
+         */
         long californiaPop = reports.getDistrictPopulation("California");
         reports.printDistrictPopulation("California", californiaPop);
 
-        // Get and print population for London (city)
+        /**
+         * Get and print population for London (city)
+         */
         long londonPop = reports.getCityPopulation("London");
         reports.printCityPopulation("London", londonPop);
 
