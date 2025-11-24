@@ -24,7 +24,21 @@ jobs:
           mvn -Dtest=com.napier.sem.TopNCityReportsTest test
           mvn -Dtest=com.napier.sem.GeneralPopulationReportsTest test
   
-  
+          mvn -Dtest=com.napier.sem.CountryReportTest test
+
+          mvn -Dtest=com.napier.sem.CapitalCityReportTest test
+      - name: List dirs
+        run: |
+          cd ./target/site/jacoco
+          pwd
+          ls
+      - name: CodeCov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+  #       directory: ./target/site/jacoco
+  #          verbose: true # optional (default = false)
+
 
   IntegrationTests:
     name: Integration Tests
@@ -39,17 +53,27 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Integration Tests
+      - name: Integration Tests and CodeCov
         run: |
           docker build -t database ./database 
           docker run --name employees -dp 33060:3306 database
           mvn -Dtest=com.napier.sem.GenerateCityReportsIntegrationTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsIntegrationTest test
           mvn -Dtest=com.napier.sem.GeneralPopulationReportsIntegrationTest test
+          mvn -Dtest=com.napier.sem.CountryReportIntegrationTest test
+           mvn -Dtest=com.napier.sem.CapitalCityReportIntegrationTest test
           docker stop employees
           docker rm employees
-          docker image rm database                    
-
+          docker image rm database
+      - name: Shutdown
+        run: docker compose down
+      - name: CodeCov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          directory: ./target/site/jacoco
+          flags: Integration Tests # optional
+          verbose: true # optional (default = false)
   build:
     name: Build and Start Using docker-compose
     runs-on: ubuntu-22.04
