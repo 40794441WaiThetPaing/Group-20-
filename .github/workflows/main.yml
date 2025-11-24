@@ -24,6 +24,7 @@ jobs:
           mvn -Dtest=com.napier.sem.TopNCityReportsTest test
           mvn -Dtest=com.napier.sem.CountryReportTest test
 
+          mvn -Dtest=com.napier.sem.CapitalCityReportTest test
       - name: List dirs
         run: |
           cd ./target/site/jacoco
@@ -35,7 +36,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
   #       directory: ./target/site/jacoco
   #          verbose: true # optional (default = false)
-
+  
 
   IntegrationTests:
     name: Integration Tests
@@ -57,6 +58,7 @@ jobs:
           mvn -Dtest=com.napier.sem.GenerateCityReportsIntegrationTest test
           mvn -Dtest=com.napier.sem.TopNCityReportsIntegrationTest test
           mvn -Dtest=com.napier.sem.CountryReportIntegrationTest test
+           mvn -Dtest=com.napier.sem.CapitalCityReportIntegrationTest test
           docker stop employees
           docker rm employees
           docker image rm database
