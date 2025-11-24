@@ -2,6 +2,12 @@ package com.napier.sem;
 
 import java.sql.*;
 
+/**
+ * Provides methods to retrieve and print population statistics from a database
+ * at multiple geographic levels, including world, continent, region, country,
+ * district, and city. Handles database access and basic error reporting.
+ */
+
 public class GeneralPopulationReports {
 
     final Connection con;
