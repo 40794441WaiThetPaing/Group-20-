@@ -2,13 +2,15 @@ package com.napier.sem;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class GeneralPopulationReportsTest {
 
@@ -17,7 +19,7 @@ public class GeneralPopulationReportsTest {
     @BeforeAll
     static void init() {
         // Establish mock connection
-        Connection mockCon = Mockito.mock(Connection.class);
+        Connection mockCon = mock(Connection.class);
         gpr = new GeneralPopulationReports(mockCon);
     }
 
@@ -121,5 +123,76 @@ public class GeneralPopulationReportsTest {
 
         assertEquals(expected.stripTrailing(), output.stripTrailing());
     }
+
+    /**
+     * Unit Tests for error handling
+     * @throws Exception
+     */
+    @Test
+    void testGetTotalWorldPopulationException() throws Exception {
+        Connection mockCon = mock(Connection.class);
+        when(mockCon.createStatement()).thenThrow(new SQLException("DB error"));
+
+        GeneralPopulationReports gpr = new GeneralPopulationReports(mockCon);
+
+        long pop = gpr.getTotalWorldPopulation();
+        assertEquals(0, pop);  // because default is zero
+    }
+
+    @Test
+    void testGetContinentPopulationException() throws Exception {
+        Connection mockCon = mock(Connection.class);
+        when(mockCon.createStatement()).thenThrow(new SQLException("DB error"));
+
+        GeneralPopulationReports gpr = new GeneralPopulationReports(mockCon);
+
+        long pop = gpr.getContinentPopulation("North America");
+        assertEquals(0, pop);  // because default is zero
+    }
+
+    @Test
+    void testGetRegionPopulationException() throws Exception {
+        Connection mockCon = mock(Connection.class);
+        when(mockCon.createStatement()).thenThrow(new SQLException("DB error"));
+
+        GeneralPopulationReports gpr = new GeneralPopulationReports(mockCon);
+
+        long pop = gpr.getRegionPopulation("Caribbean");
+        assertEquals(0, pop);  // because default is zero
+    }
+
+    @Test
+    void testGetCountryPopulationException() throws Exception {
+        Connection mockCon = mock(Connection.class);
+        when(mockCon.createStatement()).thenThrow(new SQLException("DB error"));
+
+        GeneralPopulationReports gpr = new GeneralPopulationReports(mockCon);
+
+        long pop = gpr.getCountryPopulation("United Kingdom");
+        assertEquals(0, pop);  // because default is zero
+    }
+
+    @Test
+    void testGetDistrictPopulationException() throws Exception {
+        Connection mockCon = mock(Connection.class);
+        when(mockCon.createStatement()).thenThrow(new SQLException("DB error"));
+
+        GeneralPopulationReports gpr = new GeneralPopulationReports(mockCon);
+
+        long pop = gpr.getDistrictPopulation("California");
+        assertEquals(0, pop);  // because default is zero
+    }
+
+    @Test
+    void testGetCityPopulationException() throws Exception {
+        Connection mockCon = mock(Connection.class);
+        when(mockCon.createStatement()).thenThrow(new SQLException("DB error"));
+
+        GeneralPopulationReports gpr = new GeneralPopulationReports(mockCon);
+
+        long pop = gpr.getCityPopulation("London");
+        assertEquals(0, pop);  // because default is zero
+    }
+
 
 }
