@@ -57,4 +57,49 @@ public class GenerateCityReportsTest {
 
         assertDoesNotThrow(() -> gcr.printCityReport(cities));
     }
+
+
+    @Test
+    void testSetAndGetCode() {
+        Country c = new Country();
+        c.setCode(123);
+        assertEquals(123, c.getCode());
+    }
+
+    @Test
+    void testSetAndGetName() {
+        Country c = new Country();
+        c.setName("Japan");
+        assertEquals("Japan", c.getName());
+    }
+
+    @Test
+    void testSetAndGetContinent() {
+        Country c = new Country();
+        c.setContinent("Asia");
+        assertEquals("Asia", c.getContinent());
+    }
+
+    @Test
+    void testSetAndGetRegion() {
+        Country c = new Country();
+        c.setRegion("Eastern Asia");
+        assertEquals("Eastern Asia", c.getRegion());
+    }
+
+    @Test
+    void testSetAndGetPopulation() {
+        Country c = new Country();
+        c.setPopulation(125000000);
+        assertEquals(125000000, c.getPopulation());
+    }
+
+    @Test
+    void testSetAndGetCapital() {
+        Country c = new Country();
+        c.setCapital(1234);
+        assertEquals(1234, c.getCapital());
+    }
 }
+
+
