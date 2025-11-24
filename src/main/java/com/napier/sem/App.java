@@ -68,10 +68,6 @@ public class App {
     /**
      * Application entry point. Establishes a database connection,
      * generates city reports, and then disconnects.
-     *
-     * @param args optional command-line arguments:
-     *             args[0] = database location
-     *             args[1] = connection delay
      * @throws Exception if a report query fails
      */
     public static void main(String[] args) throws Exception {
