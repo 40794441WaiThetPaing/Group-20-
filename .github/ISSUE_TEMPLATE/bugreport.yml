@@ -20,84 +20,76 @@ body:
   - type: input
     id: contact
     attributes:
-        label: Contact Details
-        description: How can we get in touch with you if we need more info?
-        placeholder: ex. email@example.com
-        validations:
-         required: false
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+      required: false
 
   - type: textarea
     id: description
     attributes:
-        label: Description
-        placeholder: What happened?
-        validations:
-         required: true
+      label: Description
+      placeholder: What happened?
+      required: true
 
   - type: textarea
     id: steps
     attributes:
-        label: Steps to Reproduce
-        placeholder: |
-            1. ...
-            2. ...
-            3. ...
-        validations:
-         required: true
+      label: Steps to Reproduce
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+      required: true
 
   - type: textarea
     id: expected
     attributes:
-        label: Expected Behavior
-        placeholder: What should have happened?
-        validations:
-          required: true
+      label: Expected Behavior
+      placeholder: What should have happened?
+      required: true
 
   - type: textarea
     id: actual
     attributes:
-        label: Actual Behavior
-        placeholder: What actually happened?
-        validations:
-          required: true
+      label: Actual Behavior
+      placeholder: What actually happened?
+      required: true
 
   - type: textarea
     id: logs
     attributes:
-        label: Logs / Screenshots (optional)
-        placeholder: Paste error logs or describe the image shown
-        render: shell
-
+      label: Logs / Screenshots (optional)
+      placeholder: Paste error logs or describe the image shown
+      render: shell
 
   - type: textarea
     id: possible-cause
     attributes:
-        label: Possible Cause (optional)
-        placeholder: What do you think might be causing the issue?
-
+      label: Possible Cause (optional)
+      placeholder: What do you think might be causing the issue?
 
   - type: dropdown
     id: browsers
     attributes:
-        label: What browsers are you seeing the problem on?
-        multiple: true
-        options:
-            - Firefox
-            - Chrome
-            - Safari
-            - Microsoft Edge
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
 
   - type: input
     id: environment
     attributes:
-        label: Environment (optional)
-        placeholder: e.g., GitHub Actions, Java 17, Maven 3.9.x
-
+      label: Environment (optional)
+      placeholder: e.g., GitHub Actions, Java 17, Maven 3.9.x
 
   - type: checkboxes
     id: terms
     attributes:
-        label: Code of Conduct
-        options:
-            label: I agree to follow this project's Code of Conduct
-            required: true
+      label: Code of Conduct
+      options:
+        label: I agree to follow this project's Code of Conduct
+        required: true
