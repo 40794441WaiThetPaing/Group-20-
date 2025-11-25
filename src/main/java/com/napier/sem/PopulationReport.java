@@ -3,8 +3,8 @@ package com.napier.sem;
 import java.sql.*;
 
 /**
- * This class show the difference between urban and non urban population that are categorize by country, region and continent
- * it also includes the population that is categorize by language they speak.
+ * This class show the difference between urban and non-urban population that are categorize by country, region and continent
+ * it also includes the population that is categorized by language they speak.
  */
 
 public class PopulationReport {

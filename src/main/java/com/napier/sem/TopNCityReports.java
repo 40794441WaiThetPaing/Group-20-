@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * from the database.
  */
 public class TopNCityReports {
-    private Connection con;
+    private final Connection con;
 
     /**
      * Database connection used to execute queries
