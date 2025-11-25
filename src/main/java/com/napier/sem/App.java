@@ -68,6 +68,7 @@ public class App {
     /**
      * Application entry point. Establishes a database connection,
      * generates city reports, and then disconnects.
+     *
      * @throws Exception if a report query fails
      */
     public static void main(String[] args) throws Exception {
@@ -82,25 +83,47 @@ public class App {
             a.connect(args[0], Integer.parseInt(args[1]));
         }
 
+        /**
+         * The CountryReport class is used to generate different types of population-based reports.
+         *
+         * Each method call performs a specific SQL query and prints the results.
+         */
         // Create CountryReport object with the connection
         CountryReport cr = new CountryReport(a.con);
-
-        // 1. All countries by population
+        /**
+         * 1. All countries by population
+         * This shows all countries are sorting by population largest to smallest
+         */
         cr.printCountriesByPopulation();
 
-        // 2. All countries in a continent
+        /**
+         * 2. All countries in a continent
+         * Here, "Asia" is used as the filter, and results are sorted by population.
+         */
         cr.printCountriesByContinent("Asia");
 
-        // 3. All countries in a region
+        /**
+         * 3. All countries in a region
+         * "Eastern Asia" is used as the region filter.
+         */
         cr.printCountriesByRegion("Eastern Asia");
 
-        // 4. Top N countries in the world
+        /**
+         * 4. Top N countries in the world
+         * N = 10, so it prints the top 10 most populated countries.
+         */
         cr.printTopCountriesByPopulation(10);
 
-        // 5. Top N countries in a continent
+        /**
+         * 5. Top N countries in a continent
+         * This prints the 10 most populated countries in Asia.
+         */
         cr.printTopCountriesInContinent("Asia", 10);
 
-        // 6. Top N countries in a region
+        /**
+         * 6. Top N countries in a region
+         * This prints the top 10 most populated countries in "Southern Europe".
+         */
         cr.printTopCountriesInRegion("Southern Europe", 10);
 
 

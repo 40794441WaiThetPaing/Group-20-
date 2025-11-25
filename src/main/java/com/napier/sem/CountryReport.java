@@ -5,17 +5,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+/**
+ * CountryReport provides methods to retrieve various country-related
+ * population reports from the database. Each method runs a SQL query,
+ * then prints the results in a formatted table.
+ */
 public class CountryReport {
-
+    // Stores the active database connection
     private Connection con;
 
-    // Constructor takes database connection
+    /**
+     * Constructor
+     *
+     * @param con The database connection used for executing SQL queries
+     */
     public CountryReport(Connection con) {
         this.con = con;
     }
 
     /**
      * 1. All countries in the world organised by largest population to smallest.
+     * This query
+     * Selects country details
+     * Joins city table to get the capital name
+     * Orders results by population (DESC)
      */
     public void printCountriesByPopulation() {
         try {
@@ -27,10 +40,12 @@ public class CountryReport {
 
             ResultSet rset = stmt.executeQuery(sql);
 
+            // Print table header
             System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
                     "Code", "Name", "Continent", "Region", "Population", "Capital");
             System.out.println("----------------------------------------------------------------------------------------------------");
 
+            // Print each row returned from the query
             while (rset.next()) {
                 System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
                         rset.getString("Code"),
@@ -48,6 +63,11 @@ public class CountryReport {
 
     /**
      * 2. All countries in a continent sorted by population
+     * Uses a PreparedStatement because it includes
+     * a user-provided parameter (continent).
+     * Sorts the returned countries by population in descending order.
+     *
+     * @param continent the continent for which the country should be listed.
      */
     public void printCountriesByContinent(String continent) {
         try {
@@ -60,11 +80,13 @@ public class CountryReport {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, continent);
 
+            // Print header
             ResultSet rset = stmt.executeQuery();
             System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
                     "Code", "Name", "Continent", "Region", "Population", "Capital");
             System.out.println("----------------------------------------------------------------------------------------------------");
 
+            // Print result
             while (rset.next()) {
                 System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
                         rset.getString("Code"),
@@ -82,6 +104,9 @@ public class CountryReport {
 
     /**
      * 3. All countries in a given region sorted by population
+     * Filters results using the provided region name.
+     *
+     * @param region the region for which the countries should be listed
      */
     public void printCountriesByRegion(String region) {
         try {
@@ -95,11 +120,12 @@ public class CountryReport {
             stmt.setString(1, region);
 
             ResultSet rset = stmt.executeQuery();
+            //print header
             System.out.printf("\nCountries in %s (sorted by population):%n", region);
             System.out.printf("%-5s %-40s %-15s %-25s %-15s %-20s%n",
                     "Code", "Name", "Continent", "Region", "Population", "Capital");
             System.out.println("----------------------------------------------------------------------------------------------------");
-
+            //print result
             while (rset.next()) {
                 System.out.printf("%-5s %-40s %-15s %-25s %-15d %-20s%n",
                         rset.getString("Code"),
@@ -117,6 +143,9 @@ public class CountryReport {
 
     /**
      * 4. Top N countries in the world by population
+     * Using LIMIT ? to restrict the number of returned rows.
+     *
+     * @param topN the maximum number of countries to return (e.g., 5, 10)
      */
     public void printTopCountriesByPopulation(int topN) {
         try {
@@ -152,6 +181,10 @@ public class CountryReport {
 
     /**
      * 5. Top N countries in a continent by population
+     * Uses LIMIT ? to restrict the number of returned rows.
+     *
+     * @param continent the continent for which the top populated countries should be displayed
+     * @param topN the maximum number of countries to return (e.g., 5, 10)
      */
     public void printTopCountriesInContinent(String continent, int topN) {
         try {
@@ -189,6 +222,10 @@ public class CountryReport {
 
     /**
      * 6. Top N countries in a region by population
+     * Uses LIMIT ? to restrict the number of returned rows.
+     *
+     * @param region the region for which the top populated countries should be displayed
+     * @param topN the maximum number of countries to return (e.g., 5, 10)
      */
     public void printTopCountriesInRegion(String region, int topN) {
         try {
