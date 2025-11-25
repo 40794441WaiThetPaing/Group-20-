@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class CapitalCityReport {
     private Connection con;
 
-    // Constructor to initialize the database connection
+    /** Constructor to initialize the database connection */
     public CapitalCityReport(Connection con) {
         this.con = con;
     }

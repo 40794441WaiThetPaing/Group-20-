@@ -163,28 +163,28 @@ public class App {
         reportpp.printLanguageReport();
 
 
-        // Check if connection was successful
+        /** Check if connection was successful */
         if (a.con != null) {
-            // Create CapitalCityReport instance
+            /** Create CapitalCityReport */
             CapitalCityReport capitalReport = new CapitalCityReport(a.con);
 
-            // === CAPITAL CITY REPORTS ===
-            // 1. All capital cities in the world sorted by population
+            /** CAPITAL CITY REPORTS */
+            /** All capital cities in the world sorted by population */
             capitalReport.printAllCapitalCitiesWorld();
 
-            // 2. All capital cities in a continent (e.g., "Asia")
+            /** All capital cities in a continent (e.g., "Asia") */
             capitalReport.printCapitalCitiesByContinent("Asia");
 
-            // 3. All capital cities in a region (e.g., "Western Europe")
+            /** All capital cities in a region (e.g., "Western Europe") */
             capitalReport.printCapitalCitiesByRegion("Western Europe");
 
-            // 4. Top N capital cities in the world (e.g., Top 10)
+            /** Top N capital cities in the world (e.g., Top 10) */
             capitalReport.printTopNCapitalCitiesWorld(10);
 
-            // 5. Top N capital cities in a continent (e.g., Top 5 in Africa)
+            /** Top N capital cities in a continent (e.g., Top 5 in Africa) */
             capitalReport.printTopNCapitalCitiesByContinent("Africa", 5);
 
-            // 6. Top N capital cities in a region (e.g., Top 3 in Southern Europe)
+            /** Top N capital cities in a region (e.g., Top 3 in Southern Europe) */
             capitalReport.printTopNCapitalCitiesByRegion("Southern Europe", 3);
         } else {
             System.out.println("Connection failed. Reports not generated.");
