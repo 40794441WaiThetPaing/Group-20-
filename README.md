@@ -16,7 +16,7 @@ Testing for CI
 # Codecov
 [![codecov](https://codecov.io/gh/40794441WaiThetPaing/Group-20-/graph/badge.svg?token=LSE4XVG1FT)](https://codecov.io/gh/40794441WaiThetPaing/Group-20-)
 
-![Codecov (with branch)](https://img.shields.io/codecov/c/github/40794441WaiThetPaing/Group-20-/develop)
+![Codecov (with branch)](https://img.shields.io/codecov/c/github/40794441WaiThetPaing/Group-20-/master)
 
 32 requirements of 32 have been implemented, which is 100%.
 | ID |                                                                                               Name                                                                                                | Met |                                                                                                    Screenshot |
