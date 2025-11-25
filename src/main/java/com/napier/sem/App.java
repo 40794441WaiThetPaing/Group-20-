@@ -8,18 +8,12 @@ import java.util.ArrayList;
  * running reports, and controlling the program workflow.
  */
 public class App {
-    /**
-     * Active MySQL database connection.
-     */
+
     Connection con = null;
 
     /**
      * Connects to a MySQL database using the provided location and delay time.
      * Attempts a maximum of 10 retries before giving up.
-     *
-     * @param location the host and port of the MySQL server
-     *                 (e.g. "localhost:33060" or "db:3306")
-     * @param delay    time to wait between retries (milliseconds)
      */
     public void connect(String location, int delay) {
         try {
