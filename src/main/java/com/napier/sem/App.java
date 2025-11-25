@@ -126,13 +126,13 @@ public class App {
         reports.printContinentPopulation("North America", northAmericaPop);
 
         /**
-         * Get and print total population for Caribbean (region)
+         * Get and print total population for the Caribbean (region)
          */
         long caribbeanPop = reports.getRegionPopulation("Caribbean");
         reports.printRegionPopulation("Caribbean", caribbeanPop);
 
         /**
-         * Get and print population for United Kingdom (country)
+         * Get and print population for the United Kingdom (country)
          */
         long ukPop = reports.getCountryPopulation("United Kingdom");
         reports.printCountryPopulation("United Kingdom", ukPop);
