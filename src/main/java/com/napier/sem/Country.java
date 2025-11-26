@@ -1,13 +1,39 @@
 package com.napier.sem;
 
-
+/**
+ * Represents a country in the world database.
+ */
 public class Country {
+    /**
+     * The unique country code.
+     */
     private int code;
+
+    /**
+     * The official name of the country.
+     */
     private String name;
+
+    /**
+     * The continent where the country is located.
+     */
     private String continent;
+
+    /**
+     * The geographical region of the country.
+     */
     private String region;
+
+    /**
+     * The total population of the country.
+     */
     private int population;
+
+    /**
+     * The ID of the capital city.
+     */
     private int capital;
+
 
     public int getCode() {
         return code;

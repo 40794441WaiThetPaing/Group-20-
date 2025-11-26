@@ -5,6 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+/**
+ * Provides methods for generating various country population reports
+ * based on continent, region, country, district, or worldwide.
+ * Uses SQL queries to retrieve country data from the database.
+ */
 public class CountryReport {
 
     private Connection con;

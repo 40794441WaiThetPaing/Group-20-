@@ -3,7 +3,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+/**
+ * Provides methods for generating various capital city population reports
+ * based on continent, region, country, district, or worldwide.
+ * Uses SQL queries to retrieve country data from the database.
+ */
 public class CapitalCityReport {
     private Connection con;
 

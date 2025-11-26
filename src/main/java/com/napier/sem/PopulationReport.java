@@ -36,16 +36,11 @@ public class PopulationReport {
                     """;
 
             ResultSet rs = stmt.executeQuery(sql);
-            System.out.printf("%-35s %-15s %-15s %-15s%n",
-                    "Country", "Total Pop.", "City Pop.", "Non-City Pop.");
+            System.out.printf("%-35s %-15s %-15s %-15s%n", "Country", "Total Pop.", "City Pop.", "Non-City Pop.");
             System.out.println("--------------------------------------------------------------------------------------");
 
             while (rs.next()) {
-                System.out.printf("%-35s %-15d %-15d %-15d%n",
-                        rs.getString("Country"),
-                        rs.getInt("TotalPopulation"),
-                        rs.getInt("CityPopulation"),
-                        rs.getInt("NonCityPopulation"));
+                System.out.printf("%-35s %-15d %-15d %-15d%n", rs.getString("Country"), rs.getInt("TotalPopulation"), rs.getInt("CityPopulation"), rs.getInt("NonCityPopulation"));
             }
 
         } catch (Exception e) {
@@ -55,7 +50,7 @@ public class PopulationReport {
     }
 
     /**
-     *  Population by Region
+     * Population by Region
      */
     public void printPopulationByRegion() {
         System.out.println("========================================================");
@@ -75,16 +70,11 @@ public class PopulationReport {
                     """;
 
             ResultSet rs = stmt.executeQuery(sql);
-            System.out.printf("%-30s %-15s %-15s %-15s%n",
-                    "Region", "Total Pop.", "City Pop.", "Non-City Pop.");
+            System.out.printf("%-30s %-15s %-15s %-15s%n", "Region", "Total Pop.", "City Pop.", "Non-City Pop.");
             System.out.println("--------------------------------------------------------------------------------------");
 
             while (rs.next()) {
-                System.out.printf("%-30s %-15d %-15d %-15d%n",
-                        rs.getString("Region"),
-                        rs.getLong("TotalPopulation"),
-                        rs.getLong("CityPopulation"),
-                        rs.getLong("NonCityPopulation"));
+                System.out.printf("%-30s %-15d %-15d %-15d%n", rs.getString("Region"), rs.getLong("TotalPopulation"), rs.getLong("CityPopulation"), rs.getLong("NonCityPopulation"));
             }
 
         } catch (Exception e) {
@@ -94,7 +84,7 @@ public class PopulationReport {
     }
 
     /**
-     *  Population by Continent
+     * Population by Continent
      */
     public void printPopulationByContinent() {
         System.out.println("========================================================");
@@ -114,16 +104,11 @@ public class PopulationReport {
                     """;
 
             ResultSet rs = stmt.executeQuery(sql);
-            System.out.printf("%-20s %-15s %-15s %-15s%n",
-                    "Continent", "Total Pop.", "City Pop.", "Non-City Pop.");
+            System.out.printf("%-20s %-15s %-15s %-15s%n", "Continent", "Total Pop.", "City Pop.", "Non-City Pop.");
             System.out.println("--------------------------------------------------------------------------------------");
 
             while (rs.next()) {
-                System.out.printf("%-20s %-15d %-15d %-15d%n",
-                        rs.getString("Continent"),
-                        rs.getLong("TotalPopulation"),
-                        rs.getLong("CityPopulation"),
-                        rs.getLong("NonCityPopulation"));
+                System.out.printf("%-20s %-15d %-15d %-15d%n", rs.getString("Continent"), rs.getLong("TotalPopulation"), rs.getLong("CityPopulation"), rs.getLong("NonCityPopulation"));
             }
 
         } catch (Exception e) {
@@ -133,7 +118,7 @@ public class PopulationReport {
     }
 
     /**
-     *  Language Report — Chinese, English, Hindi, Spanish, Arabic
+     * Language Report — Chinese, English, Hindi, Spanish, Arabic
      */
     public void printLanguageReport() {
         System.out.println("========================================================");
