@@ -15,9 +15,17 @@ import java.lang.reflect.Field;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the App class.
+ * Tests connection and disconnection behavior.
+ */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AppTest {
 
+    /**
+     * Sets the App logger level to FINE before all tests.
+     * This ensures that log statements in the App class can be tested.
+     */
     @BeforeAll
     static void setLoggerLevel() throws Exception {
         Field loggerField = App.class.getDeclaredField("LOGGER");
@@ -26,6 +34,9 @@ public class AppTest {
         logger.setLevel(Level.FINE); // ensures branch coverage for FINE logs
     }
 
+    /**
+     * Tests that a successful connection immediately assigns a Connection object.
+     */
     @Test
     @Order(1)
     @DisplayName("connect: immediate success")
@@ -42,6 +53,10 @@ public class AppTest {
         }
     }
 
+    /**
+     * Tests that connect() retries on failure and eventually succeeds.
+     * First two attempts fail, third attempt succeeds.
+     */
     @Test
     @Order(2)
     @DisplayName("connect: retries twice then succeeds")
@@ -68,6 +83,9 @@ public class AppTest {
         }
     }
 
+    /**
+     * Tests that connect() throws SQLException after all retry attempts fail.
+     */
     @Test
     @Order(3)
     @DisplayName("connect: fails after all retries")
@@ -85,7 +103,9 @@ public class AppTest {
         }
     }
 
-
+    /**
+     * Tests that disconnect() does nothing if the connection is null.
+     */
     @Test
     @Order(4)
     @DisplayName("disconnect: null connection does nothing")
@@ -95,6 +115,9 @@ public class AppTest {
         app.disconnect(); // Should not throw
     }
 
+    /**
+     * Tests that disconnect() closes a valid Connection object.
+     */
     @Test
     @Order(5)
     @DisplayName("disconnect: closes valid connection")
@@ -106,6 +129,9 @@ public class AppTest {
         verify(mockCon, times(1)).close();
     }
 
+    /**
+     * Tests that disconnect() propagates SQLException if close() fails.
+     */
     @Test
     @Order(6)
     @DisplayName("disconnect: close throws exception")
