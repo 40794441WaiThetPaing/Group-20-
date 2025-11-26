@@ -23,61 +23,37 @@ public class App {
      * @param location the host and port of the MySQL server
      * @param delay    time to wait between retries (milliseconds)
      */
-    public void connect(String location, int delay) {
-        try {
-            // Load Database driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("Could not load SQL driver");
-            }
-            System.exit(-1);
-        }
+    public void connect(String location, int delay) throws Exception {
+        // Load Database driver
+        Class.forName("com.mysql.cj.jdbc.Driver");
 
         int retries = 10;
         for (int i = 0; i < retries; ++i) {
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine("Connecting to database...");
             }
-            try {
-                // Wait a bit for db to start
-                Thread.sleep(delay);
-                // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://" + location
-                                + "/world?allowPublicKeyRetrieval=true&useSSL=false",
-                        "root", "example");
-                if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.fine("Successfully connected");
-                }
-                break;
-            } catch (SQLException sqle) {
-                if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.fine("Failed to connect to database attempt " + i);
-                    LOGGER.fine(sqle.getMessage());
-                }
-            } catch (InterruptedException ie) {
-                if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.fine("Thread interrupted? Should not happen.");
-                }
+            // Wait a bit for db to start
+            Thread.sleep(delay);
+            // Connect to database
+            con = DriverManager.getConnection("jdbc:mysql://" + location
+                            + "/world?allowPublicKeyRetrieval=true&useSSL=false",
+                    "root", "example");
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Successfully connected");
             }
+            break;
         }
     }
 
     /**
      * Disconnect from the MySQL database.
      */
-    public void disconnect() {
+    public void disconnect() throws Exception {
         if (con != null) {
-            try {
-                con.close();
-            } catch (Exception e) {
-                if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.fine("Error closing connection to database");
-                }
-
-            }
+            con.close();
         }
     }
+
     /**
      * Application entry point. Establishes a database connection,
      * generates city reports, and then disconnects.
@@ -141,7 +117,6 @@ public class App {
          */
         cr.printTopCountriesInRegion("Southern Europe", 10);
 
-
         /**
          * user-defined number of top cities to display
          */
@@ -200,7 +175,6 @@ public class App {
         /** 4. Language Report */
         reportpp.printLanguageReport();
 
-
         /** Check if connection was successful */
         if (a.con != null) {
             /** Create CapitalCityReport */
@@ -224,12 +198,9 @@ public class App {
 
             /** Top N capital cities in a region (e.g., Top 3 in Southern Europe) */
             capitalReport.printTopNCapitalCitiesByRegion("Southern Europe", 3);
-        } else {
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("Connection failed. Reports not generated.");
-            }
+        } else if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.fine("Connection failed. Reports not generated.");
         }
-
 
         int n = 10; // user-defined number
 
@@ -250,7 +221,6 @@ public class App {
         ArrayList<City> continentCities = report.getTopNCitiesInContinent("Asia", n);
         report.printCityReport(continentCities, "Top " + n + " Populated Cities in Asia");
 
-
         /**
          * Get and Print top N cities in Eastern Asia
          */
@@ -269,28 +239,23 @@ public class App {
         ArrayList<City> districtCities = report.getTopNCitiesInDistrict("Tokyo-to", n);
         report.printCityReport(districtCities, "Top " + n + " Populated Cities in Tokyo-to");
 
-
         // Generate City Report
         GenerateCityReports gcr = new GenerateCityReports(a.con);
 
         ArrayList<City> allcities = gcr.getAllCitiesByPopulation();
         gcr.printCityReport(allcities);
 
-
         ArrayList<City> asianCities = gcr.getCitiesByContinent("Asia");
         gcr.printCityReport(asianCities);
 
-
         ArrayList<City> westernEuropeCities = gcr.getCitiesByRegion("Western Europe");
         gcr.printCityReport(westernEuropeCities);
-
 
         ArrayList<City> japaneseCities = gcr.getCitiesByCountry("Japan");
         gcr.printCityReport(japaneseCities);
 
         ArrayList<City> englandCities = gcr.getCitiesByDistrict("England");
         gcr.printCityReport(englandCities);
-
 
         // Disconnect from database
         a.disconnect();

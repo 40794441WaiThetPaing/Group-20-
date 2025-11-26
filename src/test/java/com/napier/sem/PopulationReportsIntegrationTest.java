@@ -18,7 +18,7 @@ public class PopulationReportsIntegrationTest {
     private PopulationReport populationReport;
 
     @BeforeAll
-    void init() {
+    void init() throws Exception {
         app = new App();
         app.connect("localhost:33060", 30000);
         populationReport = new PopulationReport(app.con);
