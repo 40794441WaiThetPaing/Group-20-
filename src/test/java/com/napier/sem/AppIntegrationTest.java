@@ -2,6 +2,7 @@ package com.napier.sem;
 
 import org.junit.jupiter.api.*;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,7 +49,15 @@ public class AppIntegrationTest {
     @Order(3)
     public void testDatabaseDisconnection() {
         app.disconnect();
-        assertNull(app.con, "Connection should be null after disconnect()");
+
+        assertNotNull(app.con, "Connection object should still exist after disconnect()");
+        assertDoesNotThrow(() -> app.con.isClosed());
+
+        try {
+            assertTrue(app.con.isClosed(), "Connection should be closed after disconnect()");
+        } catch (SQLException e) {
+            fail("Error checking connection state: " + e.getMessage());
+        }
     }
 
 }

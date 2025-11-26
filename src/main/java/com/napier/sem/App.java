@@ -74,8 +74,7 @@ public class App {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.fine("Error closing connection to database");
                 }
-            } finally {
-                con = null;   // <=== important line
+
             }
         }
     }
