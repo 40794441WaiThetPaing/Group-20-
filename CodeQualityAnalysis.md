@@ -1,6 +1,6 @@
 # Code Quality Analysis: PMD and ErrorProne
 
-![img.png](img.png)
+![img_2.png](img_2.png)![img_1.png](img_1.png)![img.png](img.png)
 
 ErrorProne lists several issues in the code, including AvoidBranchingStatementAsLastInLoop and duplicate literals that became visible after code changes.
 
