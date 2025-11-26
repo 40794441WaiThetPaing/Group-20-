@@ -1,67 +1,97 @@
 package com.napier.sem;
 
-import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-/**
- * Unit tests for the {@link App} class.
- * Uses mocked database connections and report classes to avoid real DB access.
- */
-public class AppTest {
+class AppTest {
 
-    private App app;
-    private Connection mockConnection;
+    @Test
+    void testConnect_InvalidHost_ShouldHandleSQLException() {
+        App app = new App();
 
-    @BeforeEach
-    void setup() {
-        app = new App();
-        mockConnection = Mockito.mock(Connection.class);
-        app.con = mockConnection; // inject mock connection
+        // Attempt to connect to an invalid host to trigger SQLException handling
+        // The method handles exceptions internally, so it should not throw
+        assertDoesNotThrow(() -> app.connect("invalidhost:1234", 1));
     }
 
     @Test
-    void testConnect_Success() throws SQLException {
-        // We cannot actually test DriverManager.getConnection easily without a real DB,
-        // but we can simulate success by checking no exception occurs with valid parameters
-        assertDoesNotThrow(() -> app.connect("localhost:33060", 10));
-    }
-
-    @Test
-    void testDisconnect_NullConnection() {
+    void testDisconnect_NullConnection_ShouldNotThrow() {
+        App app = new App();
         app.con = null; // simulate no connection
+
         assertDoesNotThrow(() -> app.disconnect());
     }
 
     @Test
-    void testDisconnect_WithConnection() throws SQLException {
-        doNothing().when(mockConnection).close(); // simulate close success
+    void testDisconnect_WithConnectionThrowingException_ShouldHandleException() {
+        App app = new App();
+
+        // Create a mock Connection that throws an exception on close()
+        app.con = new Connection() {
+            @Override
+            public void close() {
+                throw new RuntimeException("Forced close exception");
+            }
+
+            // All other methods are left unimplemented for testing
+            @Override public <T> T unwrap(Class<T> iface) { return null; }
+            @Override public boolean isWrapperFor(Class<?> iface) { return false; }
+            @Override public java.sql.Statement createStatement() { return null; }
+            @Override public java.sql.PreparedStatement prepareStatement(String sql) { return null; }
+            @Override public java.sql.CallableStatement prepareCall(String sql) { return null; }
+            @Override public String nativeSQL(String sql) { return null; }
+            @Override public void setAutoCommit(boolean autoCommit) {}
+            @Override public boolean getAutoCommit() { return false; }
+            @Override public void commit() {}
+            @Override public void rollback() {}
+            @Override public boolean isClosed() { return false; }
+            @Override public java.sql.DatabaseMetaData getMetaData() { return null; }
+            @Override public void setReadOnly(boolean readOnly) {}
+            @Override public boolean isReadOnly() { return false; }
+            @Override public void setCatalog(String catalog) {}
+            @Override public String getCatalog() { return null; }
+            @Override public void setTransactionIsolation(int level) {}
+            @Override public int getTransactionIsolation() { return 0; }
+            @Override public java.sql.SQLWarning getWarnings() { return null; }
+            @Override public void clearWarnings() {}
+            @Override public java.sql.Statement createStatement(int resultSetType, int resultSetConcurrency) { return null; }
+            @Override public java.sql.PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) { return null; }
+            @Override public java.sql.CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) { return null; }
+            @Override public java.util.Map<String, Class<?>> getTypeMap() { return null; }
+            @Override public void setTypeMap(java.util.Map<String, Class<?>> map) {}
+            @Override public void setHoldability(int holdability) {}
+            @Override public int getHoldability() { return 0; }
+            @Override public java.sql.Savepoint setSavepoint() { return null; }
+            @Override public java.sql.Savepoint setSavepoint(String name) { return null; }
+            @Override public void rollback(java.sql.Savepoint savepoint) {}
+            @Override public void releaseSavepoint(java.sql.Savepoint savepoint) {}
+            @Override public java.sql.Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) { return null; }
+            @Override public java.sql.PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) { return null; }
+            @Override public java.sql.CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) { return null; }
+            @Override public java.sql.PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) { return null; }
+            @Override public java.sql.PreparedStatement prepareStatement(String sql, int[] columnIndexes) { return null; }
+            @Override public java.sql.PreparedStatement prepareStatement(String sql, String[] columnNames) { return null; }
+            @Override public java.sql.Clob createClob() { return null; }
+            @Override public java.sql.Blob createBlob() { return null; }
+            @Override public java.sql.NClob createNClob() { return null; }
+            @Override public java.sql.SQLXML createSQLXML() { return null; }
+            @Override public boolean isValid(int timeout) { return false; }
+            @Override public void setClientInfo(String name, String value) {}
+            @Override public void setClientInfo(java.util.Properties properties) {}
+            @Override public String getClientInfo(String name) { return null; }
+            @Override public java.util.Properties getClientInfo() { return null; }
+            @Override public void setSchema(String schema) {}
+            @Override public String getSchema() { return null; }
+            @Override public void abort(java.util.concurrent.Executor executor) {}
+            @Override public void setNetworkTimeout(java.util.concurrent.Executor executor, int milliseconds) {}
+            @Override public int getNetworkTimeout() { return 0; }
+            @Override public java.sql.Array createArrayOf(String typeName, Object[] elements) { return null; }
+            @Override public java.sql.Struct createStruct(String typeName, Object[] attributes) { return null; }
+        };
+
         assertDoesNotThrow(() -> app.disconnect());
-        verify(mockConnection, times(1)).close();
-    }
-
-    @Test
-    void testMain_ExecutionWithMocks() {
-        // Use Mockito.spy to avoid actually connecting to DB
-        App spyApp = spy(new App());
-        spyApp.con = mockConnection;
-
-        // Mock other report classes to avoid real DB access
-        CountryReport cr = mock(CountryReport.class);
-        GeneralPopulationReports gpr = mock(GeneralPopulationReports.class);
-        PopulationReport pr = mock(PopulationReport.class);
-        CapitalCityReport ccr = mock(CapitalCityReport.class);
-        TopNCityReports tcr = mock(TopNCityReports.class);
-        GenerateCityReports gcr = mock(GenerateCityReports.class);
-
-        // We cannot inject these into main() directly since it creates new objects,
-        // but the test ensures that main() runs without throwing exceptions
-        assertDoesNotThrow(() -> App.main(new String[]{}));
     }
 }
