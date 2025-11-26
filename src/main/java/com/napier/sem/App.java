@@ -28,20 +28,40 @@ public class App {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         int retries = 10;
-        for (int i = 0; i < retries; ++i) {
+        int attempt = 0;
+        boolean connected = false;
+
+        while (attempt < retries && !connected) {
+            LOGGER.info("Connecting to database..."); // PMD-compliant
             if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("Connecting to database...");
+                LOGGER.fine("Attempt " + (attempt + 1));
             }
+
             // Wait a bit for db to start
             Thread.sleep(delay);
-            // Connect to database
-            con = DriverManager.getConnection("jdbc:mysql://" + location
-                            + "/world?allowPublicKeyRetrieval=true&useSSL=false",
-                    "root", "example");
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("Successfully connected");
+
+            try {
+                // Connect to database
+                con = DriverManager.getConnection("jdbc:mysql://" + location
+                                + "/world?allowPublicKeyRetrieval=true&useSSL=false",
+                        "root", "example");
+
+                connected = true; // connection successful
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.fine("Successfully connected");
+                }
+
+            } catch (SQLException e) {
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.fine("Failed to connect to database on attempt " + (attempt + 1));
+                    LOGGER.fine(e.getMessage());
+                }
+                attempt++; // increment retry count
             }
-            break;
+        }
+
+        if (!connected) {
+            throw new SQLException("Could not connect to database after " + retries + " attempts.");
         }
     }
 
