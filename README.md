@@ -10,13 +10,15 @@ Testing for CI
 
 # Master
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/40794441WaiThetPaing/Group-20-/main.yml?branch=master)
-
+# Develop
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/40794441WaiThetPaing/Group-20-/main.yml?branch=develop)
 
+# Codecov
 [![codecov](https://codecov.io/gh/40794441WaiThetPaing/Group-20-/graph/badge.svg?token=LSE4XVG1FT)](https://codecov.io/gh/40794441WaiThetPaing/Group-20-)
 
-![Codecov (with branch)](https://img.shields.io/codecov/c/github/40794441WaiThetPaing/Group-20-/develop)
+![Codecov (with branch)](https://img.shields.io/codecov/c/github/40794441WaiThetPaing/Group-20-/master)
 
+32 requirements of 32 have been implemented, which is 100%.
 | ID |                                                                                               Name                                                                                                | Met |                                                                                                    Screenshot |
 |----|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|----:|--------------------------------------------------------------------------------------------------------------:|
 | 1  |                                                            All the countries in the world organised by largest population to smallest.                                                            | Yes |          ![Countries in the world organised by largest population to smallest.](img/country%20report%201.jpg) | 
