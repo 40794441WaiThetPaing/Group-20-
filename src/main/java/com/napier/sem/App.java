@@ -2,6 +2,8 @@ package com.napier.sem;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Main application class responsible for connecting to the database,
@@ -10,50 +12,63 @@ import java.util.ArrayList;
 public class App {
 
     Connection con = null;
+    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
 
     /**
      * Connects to a MySQL database using the provided location and delay time.
      * Attempts a maximum of 10 retries before giving up.
+     *
+     * @param location the host and port of the MySQL server
+     * @param delay    time to wait between retries (milliseconds)
      */
-    public void connect(String location, int delay) {
-        try {
-            // Load Database driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Could not load SQL driver");
-            System.exit(-1);
-        }
+    public void connect(String location, int delay) throws Exception {
+        // Load Database driver
+        Class.forName("com.mysql.cj.jdbc.Driver");
 
         int retries = 10;
-        for (int i = 0; i < retries; ++i) {
-            System.out.println("Connecting to database...");
-            try {
-                // Wait a bit for db to start
-                Thread.sleep(delay);
-                // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://" + location + "/world?allowPublicKeyRetrieval=true&useSSL=false", "root", "example");
-                System.out.println("Successfully connected");
-                break;
-            } catch (SQLException sqle) {
-                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
-                System.out.println(sqle.getMessage());
-            } catch (InterruptedException ie) {
-                System.out.println("Thread interrupted? Should not happen.");
+        int attempt = 0;
+        boolean connected = false;
+
+        while (attempt < retries && !connected) {
+            LOGGER.info("Connecting to database..."); // PMD-compliant
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Attempt " + (attempt + 1));
             }
+
+            // Wait a bit for db to start
+            Thread.sleep(delay);
+
+            try {
+                // Connect to database
+                con = DriverManager.getConnection("jdbc:mysql://" + location
+                                + "/world?allowPublicKeyRetrieval=true&useSSL=false",
+                        "root", "example");
+
+                connected = true; // connection successful
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.fine("Successfully connected");
+                }
+
+            } catch (SQLException e) {
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.fine("Failed to connect to database on attempt " + (attempt + 1));
+                    LOGGER.fine(e.getMessage());
+                }
+                attempt++; // increment retry count
+            }
+        }
+
+        if (!connected) {
+            throw new SQLException("Could not connect to database after " + retries + " attempts.");
         }
     }
 
     /**
      * Disconnect from the MySQL database.
      */
-    public void disconnect() {
+    public void disconnect() throws Exception {
         if (con != null) {
-            try {
-                // Close connection
-                con.close();
-            } catch (Exception e) {
-                System.out.println("Error closing connection to database");
-            }
+            con.close();
         }
     }
 
@@ -64,7 +79,9 @@ public class App {
      * @throws Exception if a report query fails
      */
     public static void main(String[] args) throws Exception {
-        System.out.println(System.getProperty("java.class.path"));
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.fine(System.getProperty("java.class.path"));
+        }
         // Create new Application
         App a = new App();
 
@@ -75,25 +92,47 @@ public class App {
             a.connect(args[0], Integer.parseInt(args[1]));
         }
 
+        /**
+         * The CountryReport class is used to generate different types of population-based reports.
+         *
+         * Each method call performs a specific SQL query and prints the results.
+         */
         // Create CountryReport object with the connection
         CountryReport cr = new CountryReport(a.con);
-
-        // 1. All countries by population
+        /**
+         * 1. All countries by population
+         * This shows all countries are sorting by population largest to smallest
+         */
         cr.printCountriesByPopulation();
 
-        // 2. All countries in a continent
+        /**
+         * 2. All countries in a continent
+         * Here, "Asia" is used as the filter, and results are sorted by population.
+         */
         cr.printCountriesByContinent("Asia");
 
-        // 3. All countries in a region
+        /**
+         * 3. All countries in a region
+         * "Eastern Asia" is used as the region filter.
+         */
         cr.printCountriesByRegion("Eastern Asia");
 
-        // 4. Top N countries in the world
+        /**
+         * 4. Top N countries in the world
+         * N = 10, so it prints the top 10 most populated countries.
+         */
         cr.printTopCountriesByPopulation(10);
 
-        // 5. Top N countries in a continent
+        /**
+         * 5. Top N countries in a continent
+         * This prints the 10 most populated countries in Asia.
+         */
         cr.printTopCountriesInContinent("Asia", 10);
 
-        // 6. Top N countries in a region
+        /**
+         * 6. Top N countries in a region
+         * This prints the top 10 most populated countries in "Southern Europe".
+         */
         cr.printTopCountriesInRegion("Southern Europe", 10);
 
 
@@ -171,8 +210,8 @@ public class App {
 
             /* 22. Top N capital cities in a region (e.g., Top 3 in Southern Europe) */
             capitalReport.printTopNCapitalCitiesByRegion("Southern Europe", 3);
-        } else {
-            System.out.println("Connection failed. Reports not generated.");
+        } else if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.fine("Connection failed. Reports not generated.");
         }
 
         int n = 10; // user-defined number

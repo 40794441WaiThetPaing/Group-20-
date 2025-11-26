@@ -12,7 +12,7 @@ public class CountryReportIntegrationTest {
     static Connection con;
 
     @BeforeAll
-    static void init() {
+    static void init() throws Exception {
         // Start application and connect to real DB
         app = new App();
         app.connect("localhost:33060", 30000);   // Docker world-db
@@ -65,7 +65,7 @@ public class CountryReportIntegrationTest {
     }
 
     @AfterAll
-    static void teardown() {
+    static void teardown() throws Exception {
         app.disconnect();
     }
 }
