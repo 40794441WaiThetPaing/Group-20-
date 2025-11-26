@@ -1,6 +1,6 @@
 # Code Quality Analysis: PMD and ErrorProne
 
-![img_2.png](img_2.png)![img_1.png](img_1.png)![img.png](img.png)
+![PMD_Modification](img/img_5.png)![PMD_Modification](img/img_7.png)![PMD_Modification](img/img_6.png)
 
 ErrorProne lists several issues in the code, including AvoidBranchingStatementAsLastInLoop and duplicate literals that became visible after code changes.
 
