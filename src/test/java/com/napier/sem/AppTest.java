@@ -1,97 +1,110 @@
 package com.napier.sem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.stubbing.Answer;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
-class AppTest {
+/**
+ * Unit tests for App.connect() and App.disconnect().
+ */
+public class AppTest {
 
     @Test
-    void testConnect_InvalidHost_ShouldHandleSQLException() {
+    @DisplayName("connect: success on first try")
+    public void connectSuccess() throws Exception {
         App app = new App();
+        Connection mockCon = mock(Connection.class);
 
-        // Attempt to connect to an invalid host to trigger SQLException handling
-        // The method handles exceptions internally, so it should not throw
-        assertDoesNotThrow(() -> app.connect("invalidhost:1234", 1));
+        try (MockedStatic<DriverManager> dm = Mockito.mockStatic(DriverManager.class)) {
+            dm.when(() -> DriverManager.getConnection(
+                    anyString(), anyString(), anyString()
+            )).thenReturn(mockCon);
+
+            app.connect("localhost:33060", 0);
+
+            assertNotNull(app.con);
+            dm.verify(() -> DriverManager.getConnection(
+                    startsWith("jdbc:mysql://localhost:33060"),
+                    eq("root"),
+                    eq("example")
+            ));
+        }
     }
 
     @Test
-    void testDisconnect_NullConnection_ShouldNotThrow() {
+    @DisplayName("connect: retries on SQLException (2 fails then success)")
+    public void connectRetriesOnSQLException() throws Exception {
         App app = new App();
-        app.con = null; // simulate no connection
+        Connection mockCon = mock(Connection.class);
 
-        assertDoesNotThrow(() -> app.disconnect());
+        try (MockedStatic<DriverManager> dm = Mockito.mockStatic(DriverManager.class)) {
+
+            // Use Answer instead of chaining thenThrow/thenReturn
+            Answer<Connection> answer = new Answer<Connection>() {
+                int callCount = 0;
+
+                @Override
+                public Connection answer(org.mockito.invocation.InvocationOnMock invocation) throws Throwable {
+                    callCount++;
+                    if (callCount <= 2) {
+                        throw new SQLException("fail " + callCount);
+                    }
+                    return mockCon;
+                }
+            };
+
+            dm.when(() -> DriverManager.getConnection(
+                    anyString(), anyString(), anyString()
+            )).thenAnswer(answer);
+
+            app.connect("localhost:33060", 0);
+
+            assertNotNull(app.con);
+            dm.verify(() -> DriverManager.getConnection(
+                    anyString(), anyString(), anyString()
+            ), times(3));
+        }
     }
 
     @Test
-    void testDisconnect_WithConnectionThrowingException_ShouldHandleException() {
+    @DisplayName("disconnect: does nothing when connection null")
+    public void disconnectNull() {
         App app = new App();
+        app.con = null;
 
-        // Create a mock Connection that throws an exception on close()
-        app.con = new Connection() {
-            @Override
-            public void close() {
-                throw new RuntimeException("Forced close exception");
-            }
+        assertDoesNotThrow(app::disconnect);
+    }
 
-            // All other methods are left unimplemented for testing
-            @Override public <T> T unwrap(Class<T> iface) { return null; }
-            @Override public boolean isWrapperFor(Class<?> iface) { return false; }
-            @Override public java.sql.Statement createStatement() { return null; }
-            @Override public java.sql.PreparedStatement prepareStatement(String sql) { return null; }
-            @Override public java.sql.CallableStatement prepareCall(String sql) { return null; }
-            @Override public String nativeSQL(String sql) { return null; }
-            @Override public void setAutoCommit(boolean autoCommit) {}
-            @Override public boolean getAutoCommit() { return false; }
-            @Override public void commit() {}
-            @Override public void rollback() {}
-            @Override public boolean isClosed() { return false; }
-            @Override public java.sql.DatabaseMetaData getMetaData() { return null; }
-            @Override public void setReadOnly(boolean readOnly) {}
-            @Override public boolean isReadOnly() { return false; }
-            @Override public void setCatalog(String catalog) {}
-            @Override public String getCatalog() { return null; }
-            @Override public void setTransactionIsolation(int level) {}
-            @Override public int getTransactionIsolation() { return 0; }
-            @Override public java.sql.SQLWarning getWarnings() { return null; }
-            @Override public void clearWarnings() {}
-            @Override public java.sql.Statement createStatement(int resultSetType, int resultSetConcurrency) { return null; }
-            @Override public java.sql.PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) { return null; }
-            @Override public java.sql.CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) { return null; }
-            @Override public java.util.Map<String, Class<?>> getTypeMap() { return null; }
-            @Override public void setTypeMap(java.util.Map<String, Class<?>> map) {}
-            @Override public void setHoldability(int holdability) {}
-            @Override public int getHoldability() { return 0; }
-            @Override public java.sql.Savepoint setSavepoint() { return null; }
-            @Override public java.sql.Savepoint setSavepoint(String name) { return null; }
-            @Override public void rollback(java.sql.Savepoint savepoint) {}
-            @Override public void releaseSavepoint(java.sql.Savepoint savepoint) {}
-            @Override public java.sql.Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) { return null; }
-            @Override public java.sql.PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) { return null; }
-            @Override public java.sql.CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) { return null; }
-            @Override public java.sql.PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) { return null; }
-            @Override public java.sql.PreparedStatement prepareStatement(String sql, int[] columnIndexes) { return null; }
-            @Override public java.sql.PreparedStatement prepareStatement(String sql, String[] columnNames) { return null; }
-            @Override public java.sql.Clob createClob() { return null; }
-            @Override public java.sql.Blob createBlob() { return null; }
-            @Override public java.sql.NClob createNClob() { return null; }
-            @Override public java.sql.SQLXML createSQLXML() { return null; }
-            @Override public boolean isValid(int timeout) { return false; }
-            @Override public void setClientInfo(String name, String value) {}
-            @Override public void setClientInfo(java.util.Properties properties) {}
-            @Override public String getClientInfo(String name) { return null; }
-            @Override public java.util.Properties getClientInfo() { return null; }
-            @Override public void setSchema(String schema) {}
-            @Override public String getSchema() { return null; }
-            @Override public void abort(java.util.concurrent.Executor executor) {}
-            @Override public void setNetworkTimeout(java.util.concurrent.Executor executor, int milliseconds) {}
-            @Override public int getNetworkTimeout() { return 0; }
-            @Override public java.sql.Array createArrayOf(String typeName, Object[] elements) { return null; }
-            @Override public java.sql.Struct createStruct(String typeName, Object[] attributes) { return null; }
-        };
+    @Test
+    @DisplayName("disconnect: closes open connection")
+    public void disconnectCloses() throws Exception {
+        App app = new App();
+        Connection mockCon = mock(Connection.class);
+        app.con = mockCon;
 
-        assertDoesNotThrow(() -> app.disconnect());
+        app.disconnect();
+
+        verify(mockCon, times(1)).close();
+    }
+
+    @Test
+    @DisplayName("disconnect: ignores exception on close")
+    public void disconnectCloseThrows() throws Exception {
+        App app = new App();
+        Connection mockCon = mock(Connection.class);
+        doThrow(new RuntimeException("close error")).when(mockCon).close();
+        app.con = mockCon;
+
+        assertDoesNotThrow(app::disconnect);
     }
 }

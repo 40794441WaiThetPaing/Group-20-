@@ -1,63 +1,21 @@
 package com.napier.sem;
 
-import org.junit.jupiter.api.*;
-import java.sql.Connection;
-import java.sql.SQLException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 /**
- * Integration Tests for App Class.
- * Ensures the application connects to the database and can run its workflow.
+ * Integration test for App.main().
+ * Requires a running MySQL 'world' database on localhost:33060.
  */
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AppIntegrationTest {
 
-    private static App app;
-
-    @BeforeAll
-    public static void setup() {
-        app = new App();
-    }
-
-    // ---------------------------------------------------
-    // 1. Test Database Connection
-    // ---------------------------------------------------
     @Test
-    @Order(1)
-    public void testDatabaseConnection() {
-        app.connect("localhost:33060", 1000);
-        assertNotNull(app.con, "Connection should not be null after connect()");
+    @DisplayName("main: runs full report flow without error")
+    public void mainRunsWithoutError() {
+        String[] args = {"localhost:33060", "0"};
+
+        assertDoesNotThrow(() -> App.main(args));
     }
-
-    // ---------------------------------------------------
-    // 2. Test Entire Main Application Run
-    // ---------------------------------------------------
-    @Test
-    @Order(2)
-    public void testAppMainRunsWithoutException() {
-        assertDoesNotThrow(() -> {
-            String[] args = {"localhost:33060", "1000"};
-            App.main(args);
-        }, "App.main() should run the full workflow without throwing exceptions");
-    }
-
-    // ---------------------------------------------------
-    // 3. Test that Disconnection Works
-    // ---------------------------------------------------
-    @Test
-    @Order(3)
-    public void testDatabaseDisconnection() {
-        app.disconnect();
-
-        assertNotNull(app.con, "Connection object should still exist after disconnect()");
-        assertDoesNotThrow(() -> app.con.isClosed());
-
-        try {
-            assertTrue(app.con.isClosed(), "Connection should be closed after disconnect()");
-        } catch (SQLException e) {
-            fail("Error checking connection state: " + e.getMessage());
-        }
-    }
-
 }
