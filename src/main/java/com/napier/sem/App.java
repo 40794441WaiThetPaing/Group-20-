@@ -75,6 +75,7 @@ public class App {
     /**
      * Application entry point. Establishes a database connection,
      * generates city reports, and then disconnects.
+     *
      * @throws Exception if a report query fails
      */
     public static void main(String[] args) throws Exception {
