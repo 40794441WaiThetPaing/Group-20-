@@ -11,7 +11,7 @@ public class CapitalCityReportIntegrationTest {
     static CapitalCityReport report;
 
     @BeforeAll
-    static void init() {
+    static void init() throws Exception {
         app = new App();
 
         // IMPORTANT — matches Docker container port mapping from SEM coursework
@@ -23,7 +23,7 @@ public class CapitalCityReportIntegrationTest {
     }
 
     @AfterAll
-    static void cleanup() {
+    static void cleanup() throws Exception {
         app.disconnect();
     }
 

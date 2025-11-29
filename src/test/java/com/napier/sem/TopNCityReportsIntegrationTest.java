@@ -32,7 +32,7 @@ public class TopNCityReportsIntegrationTest {
      * Initializes the database connection and TopNCityReports before all tests.
      */
     @BeforeAll
-    void init() {
+    void init() throws Exception {
         app = new App();
         app.connect("localhost: 33060", 30000);
         reports = new TopNCityReports(app.con);

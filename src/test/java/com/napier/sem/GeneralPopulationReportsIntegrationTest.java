@@ -16,8 +16,7 @@ public class GeneralPopulationReportsIntegrationTest {
     static GeneralPopulationReports gpr;
 
     @BeforeAll
-    static void init()
-    {
+    static void init() throws Exception {
         // Create App and connect to database
         app = new App();
         app.connect("localhost:33060", 30000);
